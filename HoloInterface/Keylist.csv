@@ -1,0 +1,1162 @@
+Json;Default Value;Header Key;Header Comment;CPP Name;UI-Property;UI-Default Value
+single lasers;;KEY_SINGLE_LASERS;"// collection of single laser settings
+";;;
+synthetic wavelengths;;KEY_LDA_COMBOS;"// collection of settings for synthetic 
+";;;
+camera settings;;KEY_CAMERA_SETTINGS;"// collection of camera settings
+";;;
+object_data;;KEY_OBJECT_DATA;"// collection of sampe specific settings
+";;;
+cam type;;KEY_FG_CAM_TYPE;"// type of camera (enum)
+";cb_fgcam;;
+;;;;;class;QComboBox
+;;;;;editable;false
+trigger_type;;KEY_TRIGGER_TYPE;"// type of trigger board (enum)
+";cb_triggertype;;
+;;;;;class;QComboBox
+cam_w;;KEY_CAM_W;"// width of camera image (int)
+";sb_cam_w;;
+;;;;;class;QSpinBox
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix; px
+;;;;;minimum;128
+;;;;;maximum;11276
+;;;;;singleStep;512
+;;;;;value;3072
+;;;;;Label Name;lb_cam_w
+cam_h;;KEY_CAM_H;"// height of camera image(int)
+";sb_cam_h;;
+;;;;;class;QSpinBox
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix; px
+;;;;;minimum;64
+;;;;;maximum;9200
+;;;;;singleStep;64
+;;;;;value;3072
+;;;;;Label Name;lb_cam_h
+cam_offset_x;;KEY_CAM_OFFSET_X;"// Distance of leftmost pixel of ROI from left edge of sensor. (not supported on all cameras)(int)
+";;;
+cam_offset_y;;KEY_CAM_OFFSET_Y;"// Distance of topmost pixel of ROI from top edge of sensor. (not supported on all cameras)(int)
+";;;
+pixel_size_cam_um;;KEY_PIXEL_CAM_UM;"// Pixel pitch, camera sensor (microns) (float)
+";sb_px_size_camera_chip_um;;
+;;;;;class;QDoubleSpinBox
+;;;;;sizePolicy;
+;;;;;suffix; Âµm
+;;;;;decimals;1
+;;;;;minimum;1
+;;;;;maximum;20
+pixel_size_conjugated_plane;;KEY_PIXEL_CONJUG_UM;"// Pixel pitch in conjugated plane (i.e. object plane without numerical propagation (float)
+";sb_pixel_size;;
+;;;;;Label Name;lb_pixel_size
+;;;;;class;QDoubleSpinBox
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix; Âµm
+;;;;;decimals;3
+;;;;;minimum;0.01
+;;;;;maximum;30
+;;;;;singleStep;0.1
+;;;;;value;3
+focal_length_mm;;KEY_FOCAL_LENGTH_MM;"// focal length of objective. 0 for a lensless setup (float)
+";sb_focal_length_mm;;
+;;;;;Label Name;lb_focal_length_mm
+;;;;;class;QDoubleSpinBox
+;;;;;sizePolicy;
+;;;;;suffix; mm
+;;;;;decimals;1
+;;;;;minimum;10
+;;;;;maximum;200
+f_number;;KEY_F_NUMBER;"// fnumber of lens (float)
+";sb_f_number;;
+;;;;;Label Name;lb_f_number
+;;;;;class;QDoubleSpinBox
+;;;;;sizePolicy;
+;;;;;suffix;
+;;;;;decimals;1
+;;;;;minimum;1
+;;;;;maximum;20
+cam_timeout_s;;KEY_CAM_TIMEOUT_S;"//camera timeout in s (float)
+";;;
+cam_rotation_angle;;KEY_CAM_ANGLE;"
+";;;
+cam_mirror_lr;;KEY_CAM_MIRROR_LR;"// flip camera image left-right
+";cb_flip_horizontal;;
+;;;;;class;QCheckBox
+;;;;;text;flip image horizontally
+cam_mirror_ud;;KEY_CAM_MIRROR_UD;"// flip camera image up-down
+";cb_flip_vertical;;
+;;;;;class;QCheckBox
+;;;;;text;flip image vertically
+serial_number_camera;;KEY_SERIAL_NUMBER;"// serial number of camera (string)
+";;;
+file_name_mask_raw_image;;KEY_FILE_MASK_RAW;"// filename for saving raw camera images (without folder), mask of time stamp allowed (%Y-%m-%d etc., see https://howardhinnant.github.io/date/date.html)
+";;;
+file_name_mask_result_image;;KEY_FILE_MASK_RESULT;"// filename for saving result images(without folder), mask of time stamp allowedn (%Y-%m-%d etc., see https://howardhinnant.github.io/date/date.html)
+";le_fn_mask;;
+;;;;;Label Name;lb_fn_mask
+;;;;;class;QLineEdit
+;;;;;text;%Y-%m-%d_%H_%M_%S.tiff
+output mode;40;KEY_OUTPUT_MODE;"// ProcessingStep: how far to process data
+";cb_output;;
+;;;;;class;QComboBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;22
+;;;;;currentIndex;0
+;;;;;text;Raw camera image
+;;;;;Label Name;lb_output
+auto_downsampling_SPS;True;KEY_AUTO_DOWNSAMPLING_SPS;"//  in SPS mode: downsampling from Fourier space?
+";cb_SPS_auto_downsampling;;
+;;;;;class;QCheckBox
+;;;;;text;auto downsampling (SPS)
+mask_circular_SPS;;KEY_MASK_CIRCULAR_SPS;"// in SPS mode: rund ausmaskieren?
+";cb_SPS_round_aperture;;
+;;;;;class;QCheckBox
+;;;;;text;round aperture (SPS)
+calibrate_from_wavemeter;;KEY_CALIBRATE_FROM_WAVEMETER;"// wavemeter calibration settings
+";;;
+exposure_ms;5;EXPOSURE_MS;"// camera exposure in ms, global (float)
+";sb_exposure;;
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;17
+;;;;;suffix; ms
+;;;;;decimals;3
+;;;;;minimum;0.001
+;;;;;maximum;999.999
+;;;;;singleStep;0.1
+;;;;;stepType;QAbstractSpinBox::AdaptiveDecimalStepType
+;;;;;value;1
+;;;;;Label Name;lb_exposure
+auto_expsoure;False;AUTOEXPOSURE;"// activate auto expsoure (bool)
+";cb_autoexposure;;
+;;;;;class;QCheckBox
+;;;;;locale;
+;;;;;text;auto exposure
+target_brightness;1000;TARGETBRIGHTNESS;"// target value for median of gray values in camera images for auto exposure (int)
+";sb_target_brightness;;
+;;;;;Label Name;lb_target_brightness
+;;;;;class;QSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;30
+;;;;;minimum;1000
+;;;;;maximum;60000
+;;;;;singleStep;100
+;;;;;value;1000
+max_allowed_exposure_ms;0.001;MAX_ALLOWED_EXPOSURE_MS;"// limit for exposure in auto exposure mode (float)
+";sb_max_exposure;;
+;;;;;Label Name;lb_max_exposure
+min_allowed_exposure_ms;0.001;MIN_ALLOWED_EXPOSURE_MS;"// limit for exposure in auto exposure mode (float)
+";sb_min_exposure;;
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;17
+;;;;;suffix; ms
+;;;;;decimals;3
+;;;;;minimum;0.001
+;;;;;maximum;999.999
+;;;;;singleStep;0.1
+;;;;;stepType;QAbstractSpinBox::AdaptiveDecimalStepType
+;;;;;value;1
+;;;;;Label Name;lb_min_exposure
+camera_gain;;CAMERA_GAIN;"// (async) set gain, currently only implemented for EVT cameras
+";sb_gain;;
+;;;;;Label Name;lb_gain
+;;;;;class;QSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;30
+;;;;;minimum;1
+;;;;;maximum;4095
+;;;;;singleStep;10
+;;;;;value;1
+auto_external_voltage;;AUTO_EXTERNAL_VOLTAGE;"// activate auto adjustement of external voltage for attenuator (bool)
+";cb_autovoltage;;
+;;;;;class;QCheckBox
+;;;;;enabled;true
+;;;;;text;auto external voltage
+eom_amplitude;101;KEY_EOM_AMPLITUDE;"// additional analog voltage synced to lasers (float)
+";sb_eom_amp200;;
+;;;;;Label Name;lb_eom_amp200
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;15
+;;;;;suffix; V
+;;;;;decimals;1
+;;;;;minimum;-200
+;;;;;maximum;200
+;;;;;value;100
+eom_offset;0;KEY_EOM_OFFSET;"// offset for analog voltage (float)
+";sb_eom_offset200;;
+;;;;;Label Name;lb_eom_offset200
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;false
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;15
+;;;;;suffix; V
+;;;;;decimals;1
+;;;;;minimum;-100
+;;;;;maximum;100
+;;;;;value;0
+piezo_amplitude;5.6;PZT_AMP_V;"// amplitude of analog voltage for piezo (float)
+";sb_pzt_amp;;
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;15
+;;;;;suffix; V
+;;;;;minimum;-20
+;;;;;maximum;20
+;;;;;singleStep;0.1
+;;;;;value;5.5
+;;;;;Label Name;lb_pzt_amp
+piezo_voltage_scale_positive;1;PZT_AMP_SCALE_POSITIVE;"// scaling factor for hysteresis compensation for piezo actuator for 0.0 to 1.0 (float)
+";sb_pzt_scale_pos;;
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;15
+;;;;;suffix;
+;;;;;minimum;0
+;;;;;maximum;2
+;;;;;singleStep;0.1
+;;;;;value;1
+;;;;;Label Name;lb_pzt_scale_pos
+piezo_delay;0.12;PZT_DELAY_MS;"// delay between Piezo movement and image acqusitions in ms (float)
+";sb_pzt_delay_ms;;
+;;;;;Label Name;lb_pzt_delay_ms
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;15
+;;;;;suffix; ms
+;;;;;decimals;2
+;;;;;minimum;-9999
+;;;;;maximum;9999
+;;;;;singleStep;0.02
+;;;;;value;0.1
+fiber_delay_ms;8;FIBER_DELAY_MS;"// delay between laser switching and image acqusitions in ms (float)
+";sb_fiber_delay_ms;;
+;;;;;Label Name;lb_fiber_delay_ms
+;;;;;class;QDoubleSpinBox
+;;;;;suffix; ms
+;;;;;decimals;1
+;;;;;maximum;2000
+;;;;;singleStep;0.1
+;;;;;value;7
+use_multichannel_switch;;"USE_MULTICHANNEL_SWITCH	";"// manual override for fiberswitch active (bool)
+";;;
+flag_dual_port_switch;;"DUAL_PORT_SWITCH_FLAG	";"// Correct port values if the wavemeter is connected to output two (bool)
+";;;
+wavelength_tolerance_nm;;"WAVELENGTH_TOLERANCE_NM	";"// how far may the wavelength measurement  differ from the old value to still be credible (float)
+";;;
+exposure_wavemeter_laser_at_port_;;EXPOSURE_WAVEMETER_LASER_;"//  Wavemeter exposure time: start value for auto-exposure per laser (appended is laser-port and not the index!) (int)
+";;;
+default_exposure_wavemeter;;DEFAULT_EXPOSURE_WAVEMETER;"// if no value for the exposure time is found, take this as start value (int)
+";sb_default_exposure_wm;;
+;;;;;class;QSpinBox
+;;;;;suffix; ms
+;;;;;minimum;1
+;;;;;maximum;512
+;;;;;Label Name;lb_default_exposure_wm
+max_exposure_wavemeter;;MAX_EXPOSURE_WAVEMETER;"// max allowed exposure for wavemeter in ms (int)
+";sb_max_exposure_wm;;
+;;;;;Label Name;lb_max_exposure_wm
+;;;;;class;QSpinBox
+;;;;;suffix; ms
+;;;;;minimum;4
+;;;;;maximum;2000
+save_interference_pattern;;SAVE_INTERFERENCE_PATTERN;"// store interference pattern from wavemeter to file (bool)
+";cb_save_interference;;
+;;;;;class;QCheckBox
+;;;;;text;Save interference curve
+wavemeter_settings;;KEY_WAVEMETER_SETTING;"// collection of wavemeter settings
+";;;
+result_image_selections;;KEY_RESULT_IMAGE_SELECTION;"// collection of settings to generate result images
+";;;
+_auto_adjusted;;KEY_AUTO_ADJUSTED_EX;"// as a tag for settings adjusted in the holo_dll -> currently only used for exposure time and laser (10/21, MF)
+";;;
+synth_lambda_max_mm;0.295632635;KEY_SYNTH_LAMBDA_MAX_MM;"
+";;;
+synth_lambda_min_mm;0.295632637;KEY_SYNTH_LAMBDA_MIN_MM;"
+";;;
+num_fine_signals;;KEY_NUM_FINE_SIGNAL;"// #define KEY_NUM_FINE_SIGNALS	""num_fine_signals""  // 2020-02-05 ungenutzt
+";;;
+number of phase images;;KEY_NUM_PHASE_IMAGE;"
+";;;
+number of amplitude images;;KEY_NUM_AMP_IMAGE;"
+";;;
+synth_lambda_display_mm;;KEY_SYNTH_OF_DISPLAY_M;"
+";;;
+init settings;;KEY_INIT_SETTING;"// inhalt des init-signals: cam_settings und laser_list
+";;;
+max_fps_reported_by_camer;;KEY_MAX_FPS_REPORTED_BY_CAMER;"
+";;;
+pixel_size_propagiert_mm;0.000735;KEY_PIXEL_SIZE_PROPAGIERT_M;"// pixel size after propagation (float)
+";;;
+korrekturfaktor Pixelgroesse;0.5;KEY_PIXEL_SCALING_FACTO;"// correction factor for pixel size at end of evaluation, typ 1.0 (float)
+";sb_scale_pixel_size;;
+;;;;;Label Name;lb_scale_pixel_size
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;true
+;;;;;decimals;4
+;;;;;minimum;0.5
+;;;;;maximum;2
+;;;;;singleStep;0.0001
+;;;;;value;1
+width_result_image;3450;KEY_WIDTH_RESUL;"// when images are resampled during evaluation: Output size is stored here (int)
+";;;
+height_result_image;3456;KEY_HEIGHT_RESUL;"// when images are resampled during evaluation: Output size is stored here (int)
+";;;
+exposure_ms;5;"KEY_EXPOSURE_MS	";"//exposure time in ms
+";;;
+loaded_from_disk;;KEY_LOADED_FROM_DIS;"// soll angeben, ob es nur ein geladenes Bild ist (fuer automatisches Laden des naechsten Bildes)
+";;;
+rescale_factor;;KEY_RESCALE_FACTOR;"// wird aktuell nirgends benutzt
+";;;
+file_name_calibration_image;;KEY_FILENAME_CALIBRATION_IMAG;"// #define KEY_FILENAME_CALIBRATION_IMAGE	""file_name_calibration_image""   // 2019-12: ungenutzt?
+";;;
+file_name_result_image;;KEY_FILENAME_RESULT_IMAGE;"// 2021-04 nur in HoloGraphicsWidget::_last_file_name_save, in holo_software ungenutzt
+";;;
+file_name_raw_image;;"KEY_FILENAME_RAW_IMAGE	";"
+";;;
+abspath_save_raw;;"KEY_ABSPATH_SAVE_RAW	";"// 2024-01: absolute path to file where raw-images are stored --> dark_images!
+";;;
+save_folder;;KEY_SAVE_FOLDE;"// save folder (String)
+";le_save_dir;;
+;;;;;Label Name;lb_save_dir
+;;;;;class;QLineEdit
+;;;;;clearButtonEnabled;false
+sequence_subolder;;KEY_SEQUENCE_SUBFOLDE;"// ab 2019-12: Unterorder, wird an SAVE_FOLDER angehängt, darf Maske mit Zeitstempel sein (%Y-%m-%d etc.)
+";le_seq_folder;;
+;;;;;Label Name;lb_seq_folder
+;;;;;class;QLineEdit
+;;;;;text;
+save_all_raw;;"KEY_SAVE_ALL_RAW		";"// bool (neu 09/2019) -> aktuell nur fuer ESPI und zum settings-Speichern benoetigt; todo Ubersprechen auf holo_Software pruefen
+";;;
+prefix_for_save;;"KEY_SAVE_RAW_PREFIX		";"// (10/2019) ESPI-Kunde hat sich gewuenscht, dass automatisch generierten ORdnern von GUI ein Prefix zugefuegt wird
+";;;
+tag_document_name;;KEY_TAG_DOCNAM;"// wird gelegentlich in TIFFTAG_DOCUMENTNAME geschrieben, z.B. ""Phase Image"", ""Amplitude Image"", ""...for Calibration""
+";;;
+synthetic wavelengths;;KEY_LDA_COMBO;"//#define KEY_LDA_COMBOS ""synthetic wavelengths""  // Json: List der synthetischen Wellenlaengen
+";;;
+combined_m;0.000295633;KEY_LDA_COMBINED_;"// synthetische fuer zusammegesetztes Bild (kann z.B. bei unwrapping anders sein als 0.synthetische!)
+";;;
+lda_m;;KEY_LASER_WL_M;"// Laser wavelength in m
+";;;
+port;;KEY_LASER_PORT;"// port @ fiber switch
+";;;
+wavemeter_port;;KEY_WAVEMETER_PORT;"// port @ wavemeter (if wavemeter has multiple ports / channels)
+";;;
+Ext. Voltage;;KEY_LASER_U;"// external voltage at AO1
+";;;
+rel exposure;;KEY_LASER_REL_EXP;"
+";;;
+num phase steps;;KEY_NUM_PHASE_STEPS;"
+";sb_phase_steps_per_laser;;
+;;;;;class;QSpinBox
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix; steps
+;;;;;minimum;1
+;;;;;value;3
+;;;;;Label Name;lb_phase_steps_per_laser
+SPS_angles;;SPS_angles;"
+";cb_use_fixed_SPS_angles;;
+trigger_bitmask;;trigger_bitmask;"
+";;;
+SPS_raw_image_index;;SPS_raw_image_index;"
+";;;
+connected_to_attenuator;;KEY_ATTENUATOR;"// if laser is connected to attenuator -> ""Ext. Voltage"" has an effect
+";;;
+use_this_laser;;KEY_USE_THIS_LASER;"// set a laser active from TCP
+";;;
+update_lambda;;KEY_UPDATE_LAMBDA;"// force update of laser wavelengths from TCP
+";;;
+update_voltage;;KEY_UPDATE_VOLTAGE;"// update ext. voltage for a laser from TCP
+";;;
+update_rel_exposure;;KEY_UPDATE_REL_EXP;"// update rel. exposure from TCP
+";;;
+search_by_index;;KEY_SEARCH_BY_INDEX ;"// use laser idx as one of the search criteria to identify lasers
+";;;
+search_by_lambda;;KEY_SEARCH_BY_LAMBDA;"// use laser wavelength one as of the search criteria to identify lasers
+";;;
+search_by_port;;KEY_SEARCH_BY_PORT;"// use laser port as one of the search criteria to identify lasers
+";;;
+search_by_raw_img_idx;;KEY_SEARCH_BY_RAW_IMG_IDX;"// use raw image idx as one of the search criteria to identify lasers
+";;;
+y;;y;"// angle of first order in sps in y (float)
+";/Keyexpansioncode-makeslocalco;;
+x;;x;"// angle of first order in sps in x (float)
+";/Keyexpansioncode-makeslocalco;;
+height_y;;height_y;"// extenstion of first order in sps in y
+";;;
+width_x;;width_x;"// extenstion of first order in sps in x
+";;;
+num_holded_requests;;num_holded_requests;"
+";sb_num_holdedHoloRequests;;
+;;;;;Label Name;lb_num_holdedHoloRequests
+;;;;;class;QSpinBox
+;;;;;cursor;ArrowCursor
+;;;;;statusTip;
+;;;;;whatsThis;
+;;;;;accessibleName;
+;;;;;accessibleDescription;
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;specialValueText;
+;;;;;suffix;
+;;;;;minimum;0
+;;;;;maximum;100
+;;;;;singleStep;1
+;;;;;value;2
+;;;;;displayIntegerBase;10
+num_frame_buffers;;num_frame_buffers;"
+";sb_num_frame_buffers;;
+;;;;;Label Name;lb_num_frame_buffers
+;;;;;class;QSpinBox
+;;;;;focusPolicy;Qt::WheelFocus
+;;;;;toolTip;"&gt;= Holded Requests + n_gpu"
+;;;;;whatsThis;
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix;
+;;;;;minimum;0
+;;;;;maximum;100
+;;;;;singleStep;1
+;;;;;value;3
+;;;;;displayIntegerBase;10
+num_result_buffers;;num_result_buffers;"
+";sb_num_result_buffers;;
+;;;;;Label Name;lb_num_result_buffers
+;;;;;class;QSpinBox
+;;;;;toolTip;2* frame buffers or more
+;;;;;alignment;Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+;;;;;suffix;
+;;;;;minimum;0
+;;;;;maximum;200
+;;;;;singleStep;1
+;;;;;value;10
+;;;;;displayIntegerBase;10
+cad_model_wavelength;;cad_model_wavelength;"//	const char* cad_model_wavelength = ""cad_model_wavelength"";
+";;;
+cad_load_model;;cad_load_model;"//	const char* cad_load_model = ""cad_load_model"";
+";;;
+cad_model_buffer;;cad_model_buffer;"//	const char* cad_model_buffer = ""cad_model_buffer"";
+";;;
+set_section_autotilt_x;;KEY_SECTION_AUTOTILT_;"
+";;;
+set_section_autotilt_y;;KEY_SECTION_AUTOTILT_;"
+";;;
+section_start_x;;KEY_SECTION_START_;"
+";;;
+section_start_y;;KEY_SECTION_START_;"
+";;;
+section_length;;KEY_SECTION_LENGT;"
+";;;
+rotary motor degree;;KEY_ROTARYMOTOR_DEGRE;"
+";;;
+laser holoport;;KEY_LASER_HOLOPOR;"
+";;;
+holography_settings;;KEY_HOLO_SETTING;"
+";;;
+filter radius;0;KEY_FILTER_RADIU;"// filter radius for synthetic wave-images before combine (float)
+";sb_filter_radius;;
+;;;;;Label Name;lb_filter_radius
+key_filter_scale_rough_signal;1.5;KEY_FILTER_SCALE_ROUGH_SIGNA;"// filter radius for rough synthetic wave-images before combine (float)
+";sb_filter_scale_rough;;
+;;;;;Label Name;lb_filter_scale_rough
+;;;;;class;QDoubleSpinBox
+;;;;;decimals;1
+;;;;;minimum;0
+;;;;;maximum;10
+;;;;;singleStep;0.5
+;;;;;value;2
+filter type;1;KEY_FILTER_TYP;"// type of filter, i.e. gaussian, mean, median; see definition of FilterType (enum)
+";cb_filter_type;;
+;;;;;Label Name;lb_filter_type
+;;;;;class;QComboBox
+;;;;;enabled;true
+;;;;;text;average
+filter_average_round_kernel;False;KEY_FILTER_AVERAGE_ROUND_KERNE;"// use circular window for mean filter (bool)
+";cb_filter_average_round_kernel;;
+;;;;;class;QCheckBox
+;;;;;text;Round filter kernel (mean)
+;;;;;checked;false
+median filter radius;0;KEY_FILTER_RADIUS_MEDIA;"// at end of evaluation: radius of median filter between 0 and 3 (int)
+";sb_filter_radius_median;;
+;;;;;Label Name;lb_filter_radius_median
+;;;;;class;QSpinBox
+;;;;;suffix; px
+;;;;;minimum;0
+;;;;;maximum;3
+;;;;;singleStep;1
+;;;;;value;1
+propagation_mm;0;KEY_PROPAGATION_MM;"// distance for numerical propagation (mm)
+";sb_distance;;
+;;;;;Label Name;lb_distance
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;true
+;;;;;suffix; mm
+;;;;;decimals;3
+;;;;;minimum;-10000
+;;;;;maximum;10000
+;;;;;singleStep;0.1
+;;;;;value;0
+propagation_method;1;KEY_PROPGATION_METHO;"// method for numerical propagation, see PropagationMethod (enum)
+";cb_propagation_method;;
+;;;;;Label Name;lb_propagation_method
+;;;;;class;QComboBox
+;;;;;enabled;true
+;;;;;text;fresnel 2-step
+minimum modulation;0;KEY_MIN_MODULATIO;"// threshold for moudlation of interferograms (float)
+";sb_min_modulation;;
+;;;;;Label Name;lb_min_modulation
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;true
+;;;;;suffix; bits
+;;;;;decimals;2
+;;;;;minimum;0
+;;;;;maximum;10
+;;;;;singleStep;0.1
+;;;;;value;2
+threshold_amplitude;0;KEY_THRESHOLD_AM;"// threshold for ampliutde image (float)
+";sb_threshold;;
+;;;;;Label Name;lb_threshold
+threshold_amplitude_synth;0;KEY_THRESHOLD_AMP_SYNT;"// threshold for synthetic images
+";sb_threshold_synth;;
+;;;;;Label Name;lb_threshold_synth
+;;;;;class;QDoubleSpinBox
+;;;;;suffix;
+;;;;;decimals;3
+;;;;;maximum;1
+;;;;;singleStep;0.01
+threshold finer signal error;0;KEY_THRESHOLD_FINERSIGNAL_ERRO;"// threshold for combination error in rad (float)
+";sb_threshold_finersignal_error;;
+;;;;;Label Name;lb_threshold_finersignal_error
+;;;;;class;QDoubleSpinBox
+;;;;;suffix; rad
+;;;;;decimals;4
+;;;;;minimum;0
+;;;;;maximum;3.1416
+;;;;;singleStep;0.05
+;;;;;value;3.1416
+mask overexposed;False;KEY_MASK_OVEREX;"// mask out overexposed pixels (bool)
+";cb_overexposed;;
+;;;;;class;QCheckBox
+;;;;;text;Mask overexpsosed
+use_tilt_compensated_filter;False;KEY_FILTER_TILT_COMPENSATE;"// tilt compensated filter on/off; for large tilts only (bool)
+";cb_filter_tilt_compensated;;
+;;;;;class;QCheckBox
+;;;;;text;Tilt corrected filtering
+;;;;;checked;true
+remove outliers;False;KEY_REMOVE_OUTLIER;"// for multiple synthetic wavlengths: remove outierts during combination (bool)
+";cb_outlier_removal;;
+;;;;;class;QCheckBox
+;;;;;text;Outlier Correction
+normalize_brightness;False;KEY_NORMALIZE_BRIGHTNES;"// compensate vignetting by low-pass filtered amplitude(bool)
+";cb_normalize_brightness;;
+;;;;;class;QCheckBox
+;;;;;text;Normalize brightness
+phase_shifts_multi_roi;False;KEY_PHASE_SHIFT_MULTI_RO;"// evaluate phase shifts in TPS in multiple ROIs (bool)
+";cb_phase_shifts_multi_roi;;
+;;;;;class;QCheckBox
+;;;;;text;phase shifts multi roi
+rotate image;False;KEY_ROTATE_IMAG;"// depreciated
+";cb_rotate_image;;
+;;;;;class;QCheckBox
+;;;;;text;Rotate result for display
+filter_before_propagation;False;KEY_FILTER_BEFORE_PRO;"// apply filter before numerical propagation
+";cb_filter_before_propagate;;
+;;;;;class;QCheckBox
+;;;;;enabled;true
+;;;;;locale;
+;;;;;text;Smooth before propagation
+;;;;;checked;false
+tilt_x;0.001281;KEY_TILT_;"// set manual tilt; will be overridden if auto-detilt is active (float)
+";sb_tilt_x;;
+;;;;;Label Name;lb_tilt_x
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;30
+;;;;;minimumHeight;0
+;;;;;toolTip;"used only if extension method is set to &quot;Tilt plane&quot;"
+;;;;;suffix; Â°
+;;;;;minimum;-90
+;;;;;maximum;90
+;;;;;singleStep;0.1
+;;;;;value;0
+tilt_y;-0.004919;KEY_TILT_;"// set manual tilt; will be overridden if auto-detilt is active (float)
+";sb_tilt_x;;
+;;;;;Label Name;lb_tilt_x
+;;;;;class;QDoubleSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;30
+;;;;;minimumHeight;0
+;;;;;toolTip;"used only if extension method is set to &quot;Tilt plane&quot;"
+;;;;;suffix; Â°
+;;;;;minimum;-90
+;;;;;maximum;90
+;;;;;singleStep;0.1
+;;;;;value;0
+tilt_second_order;0;KEY_TILT_SECOND_ORDE;"// curvature compensation (float)
+";sb_second_order_term;;
+;;;;;Label Name;lb_second_order_term
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;true
+;;;;;suffix;e-6/ pxÂ²
+;;;;;decimals;3
+;;;;;minimum;-10
+;;;;;maximum;10
+;;;;;singleStep;0.01
+;;;;;value;0
+tilt_second_order_xy;0;KEY_TILT_SECOND_ORDER_X;"// curvature compensation (float)
+";sb_second_order_term_correction_y;;
+;;;;;Label Name;lb_second_order_term_correction_y
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;false
+;;;;;decimals;3
+;;;;;minimum;0
+;;;;;maximum;5
+;;;;;singleStep;0.001
+;;;;;value;1
+activate_higher_order_polynomial;False;KEY_ACTIVATE_HIGHER_ORDER_POL;"// depreciated: curvature compensation (float)
+";cb_higher_order_term;;
+;;;;;class;QCheckBox
+;;;;;text;use higher order polynomial
+refractive_power_virtual_lens;0;KEY_REFRACTIVE_POWER_VIRTUAL_LEN;"// power of virtual lens (float)
+";sb_refractive_power;;
+;;;;;Label Name;lb_refractive_power
+;;;;;class;QDoubleSpinBox
+;;;;;enabled;true
+;;;;;suffix; dpt
+;;;;;decimals;3
+;;;;;minimum;-20
+;;;;;maximum;20
+;;;;;singleStep;0.005
+;;;;;value;-8.79
+virt_lens_method;0;KEY_VIRTUAL_LENS_METHO;"// method of virtual lens (float)
+";cb_virtual_lens_method;;
+;;;;;Label Name;lb_virtual_lens_method
+;;;;;class;QComboBox
+;;;;;enabled;true
+;;;;;text;none
+auto_tilt_correction;;KEY_AUTO_TILT_LIN;"
+";;;
+auto_tilt_on_circle;;KEY_AUTO_TILT_CIRCL;"
+";;;
+tilt_circle_mirroronly;;KEY_TILT_CIRCLE_MIRRORONL;"
+";;;
+tilt_circle_use_low_pass;;KEY_TILT_CIRCLE_USE_LOWPAS;"
+";;;
+maximumvalue_in_data;;KEY_MAX_DATA_VALU;"
+";;;
+minimumvalue_in_data;;KEY_MIN_DATA_VALU;"
+";;;
+set_dark_image;False;KEY_SET_SET_DARK_IMAG;"// use current image for backgound calibration (bool)
+";;;
+apply_dark_image;False;KEY_APPLY_DARK_IMAG;"// use previously set background image to compensate curvature in current data (bool)
+";cb_subtract_dark_image;;
+;;;;;class;QCheckBox
+;;;;;text; use dark image
+dark_without_object;False;KEY_ISDARK_WITHOUT_OBJEC;"// is the current background image taken with no object in place; else: use mirror in focus (bool)
+";cb_is_without_object;;
+;;;;;class;QCheckBox
+;;;;;text;acq. without object
+darkimage_low_pass_ratio_for_mirror_x;;KEY_DARKIMAGE_LOW_PASS_RATIO_FOR_MIRROR_;"// mirror-calibration: relative size for croping image in Fourier space for low pass filter in x
+";sb_bandpass_x;;
+;;;;;Label Name;lb_bandpass_x
+;;;;;class;QDoubleSpinBox
+;;;;;minimum;0.02
+;;;;;maximum;1
+;;;;;singleStep;0.02
+darkimage_low_pass_ratio_for_mirror_y;;KEY_DARKIMAGE_LOW_PASS_RATIO_FOR_MIRROR_;"// mirror-calibration: relative size for croping image in Fourier space for low pass filter in y
+";sb_bandpass_x;;
+;;;;;Label Name;lb_bandpass_x
+;;;;;class;QDoubleSpinBox
+;;;;;minimum;0.02
+;;;;;maximum;1
+;;;;;singleStep;0.02
+dispersion_settings;;KEY_DISPERSION_SETTING;"// collection of settings for dispersion compensation
+";;;
+do_dispersion_correction_z;False;KEY_DO_DISPERSION_CORRECTION_;"// activate dispersion compensation in axial direction (bool)
+";cb_correct_disp_z;;
+;;;;;class;QCheckBox
+;;;;;text;correct axial dispersion
+do_dispersion_correction_xy;False;KEY_DO_DISPERSION_CORRECTION_X;"// activate dispersion compensation in lateral direction, i.e. scaling (bool)
+";cb_correct_disp_xy;;
+;;;;;class;QCheckBox
+;;;;;text;correct lateral dispersion
+thickness_BS_mm;0;KEY_THICKNESS_BS_M;"// thickness of glass introducing dispersion in mm (float)
+";sb_thickness_BS;;
+;;;;;Label Name;lb_thickness_BS
+;;;;;class;QDoubleSpinBox
+;;;;;suffix; mm
+;;;;;decimals;1
+type_of_glass_BS;0;KEY_TYPE_OF_GLASS_B;"// type of glass introducing dispersion, see glass_types (enum)
+";cb_type_of_glass;;
+;;;;;class;QComboBox
+;;;;;text;BK7
+;;;;;Label Name;lb_type_of_glass
+max_num_repeats;0;MAX_NUM_REPEATS;"// if bad measurement is detected: how often may measurement be repeated) (int)
+";cb_num_repeats;;
+;;;;;Label Name;lb_num_repeats
+;;;;;class;QSpinBox
+current_num_repeats;0;CURRENT_NUM_REPEATS;"// actual count of bad tries to measure (int)
+";;;
+flag_sigma_grayvals_as_criterion;False;FLAG_VARIATION_OF_GRAYVALS_AS_CRITERION;"//  use gray value variation for bad meas. detection (bool)
+";cb_allow_sigma_grayvals_as_criterion;;
+;;;;;class;QCheckBox
+;;;;;text;check variations of  modulation
+rel_threshold_variation_grayvals;7;REL_THRESHOLD_VARIATION_GRAYVALS;"// threshold gray value variation (float)
+";sb_thres_grayvals_as_criterion;;
+;;;;;Label Name;lb_thres_grayvals_as_criterion
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;10
+;;;;;singleStep;0.05
+variation_reference_method;1;VARATION_OF_GRAYVALS_REFERENCE_METHOD;"// see QualityReferenceMethods
+";cb_ref_sigma_grayvals;;
+;;;;;Label Name;lb_ref_sigma_grayvals
+;;;;;class;QComboBox
+;;;;;text;Median
+flag_deviation_phase_steps_as_criterion;False;FLAG_DEVIATION_PHASESTEPS_AS_CRITERION;"//  use phase step error for bad meas. detection (bool)
+";cb_allow_phaseshifts_as_criterion;;
+;;;;;class;QCheckBox
+;;;;;text;check critical phase shifts
+rel_threshold_deviation_phasesteps;0.4;REL_THRESHOLD_DEVIATION_PHASESTEPS;"// threshold phase step error (float)
+";sb_thres_phase_shifts;;
+;;;;;Label Name;lb_thres_phase_shifts
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;1
+;;;;;singleStep;0.05
+flag_modulation_as_criterion;False;FLAG_MODULATION_AS_CRITERION;"//  use variation of interference modulation for bad meas. detection (bool)
+";cb_allow_modulation_as_criterion;;
+;;;;;class;QCheckBox
+;;;;;text;check critical modulation
+threshold_variation_modulation;1;THRESHOLD_VARIATION_MODULATION;"// threshold interference modulation (float)
+";sb_thres_modulation;;
+;;;;;Label Name;lb_thres_modulation
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;1
+;;;;;singleStep;0.05
+modulation_reference_method;0;MODULATION_REFERENCE_METHOD;"// see QualityReferenceMethods
+";cb_ref_modulation;;
+;;;;;Label Name;lb_ref_modulation
+;;;;;class;QComboBox
+;;;;;text;Median
+flag_smoothness_as_criterion;False;FLAG_SMOOTHNESS_AS_CRITERION;"//  use variation of smootheness for bad meas. detection (bool)
+";cb_allow_smoothness_as_criterion;;
+;;;;;class;QCheckBox
+;;;;;text;check critical smoothness
+threshold_variation_smootheness;1;THRESHOLD_VARIATION_SMOOTHENESS;"// threshold variation of smootheness (float)
+";sb_thres_smoothness;;
+;;;;;Label Name;lb_thres_smoothness
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;1
+;;;;;singleStep;0.05
+smoothness_reference_method;0;SNOOTHNESS_REFERENCE_METHOD;"// see QualityReferenceMethods
+";cb_ref_smoothness;;
+;;;;;Label Name;lb_ref_smoothness
+;;;;;class;QComboBox
+;;;;;text;Median
+flag_snr_fft_steps_as_criterion;;FLAG_SNR_FFT_AS_CRITERION;"// use phase snr for detection of bad measurement
+";cb_allow_snr_fft_as_criterion;;
+;;;;;class;QCheckBox
+;;;;;text;check signal to noise (SPS only)
+threshold_snr_fft;;THRESHOLD_SNR_FFT;"// threshold minimum allowed snr in FFT
+";sb_thres_snr_fft;;
+;;;;;Label Name;lb_thres_snr_fft
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;10
+;;;;;singleStep;0.05
+raw_quality_thresholds;;KEY_RAW_QUALITY_THRESHOLD_SETTING;"// collection of settings for detection of bad measurements
+";;;
+use_for_global_reference;False;USE_FOR_GLOBAL_REFERENCE;"
+";cb_use_for_global_reference;;
+;;;;;class;QCheckBox
+;;;;;enabled;true
+;;;;;text;mask sharp pixels for global offset
+use_for_offset_combination;False;USE_FOR_OFFSET_COMBINATION;"
+";cb_use_for_offset_combination;;
+;;;;;class;QCheckBox
+;;;;;enabled;true
+;;;;;text;mask sharp pixels for mulit-lamba combination
+radius_smooth;2;RADIUS_SMOOTH;"// smooth for in-focus-detection		(int)
+";sb_radius_smooth;;
+;;;;;class;QDoubleSpinBox
+;;;;;decimals;1
+;;;;;maximum;5
+;;;;;Label Name;lb_radius_smooth
+binning_factor;64;BINNING_FACTOR;"// binning for in-focus-detection	>=1	(int)
+";sb_binning_factor;;
+;;;;;class;QSpinBox
+;;;;;minimum;8
+;;;;;maximum;256
+;;;;;singleStep;8
+;;;;;Label Name;lb_binning_factor
+threshold_object_mask;0.3;THRESHOLD_OBJECT_MASK;"// threshold for in-focus-detection 0..1 (float)
+";sb_threshold_object_mask;;
+;;;;;class;QDoubleSpinBox
+;;;;;decimals;3
+;;;;;maximum;1
+;;;;;singleStep;0.01
+;;;;;Label Name;lb_threshold_object_mask
+detect_in_focus_settings;;KEY_DETECT_IN_FOCUS_SETTING;"// collection of settings for in-focus-detection
+";;;
+auto_tilt_method;0;KEY_AUTO_TILT_METHOD;"// auto tilt method (see TiltCorrectionMethod) (enum)
+";cb_tilt_method;;
+;;;;;class;QComboBox
+;;;;;Label Name;lb_tilt_method
+tilt_mirror_only;False;KEY_TILT_MIRROR_ONLY;"// only mirror-like regions for tilt estimation (bool)
+";cb_tilt_mirror_only;;
+;;;;;class;QCheckBox
+;;;;;text;Tilt correction on mirror only
+tilt_lowpass_before;False;KEY_TILT_LOWPASS_BEFORE;"// low pass filter before tilt estimation (bool)
+";cb_tilt_lowpass_for_tilt;;
+;;;;;class;QCheckBox
+;;;;;text;Tilt correction on lowpass fitered
+tilt_each_synth_individ;False;KEY_TILT_EACH_SYNTH_INDIVIDUAL;"// untilt each synth. lambda separately (bool)
+";cb_tilt_each_synth;;
+;;;;;class;QCheckBox
+;;;;;text;Tilt correction for each synth. L.
+tilt_detection_settings;;KEY_TILT_DETECTION_SETTING;"// collection of settings for tilt estimation
+";;;
+ring_mask_settings;;KEY_RING_MASK_SETTING;"
+";;;
+ring_mask_set_active;False;KEY_RING_MASK_SET_ACTIV;"
+";cb_set_ring_active;;
+;;;;;class;QCheckBox
+;;;;;text;Activate ring mask
+ring_mask_center_x;6447;KEY_RING_MASK_CENTER_;"
+";sb_x_center;;
+;;;;;Label Name;lb_x_center
+;;;;;class;QSpinBox
+;;;;;minimum;-5000
+;;;;;maximum;10000
+;;;;;displayIntegerBase;10
+ring_mask_center_y;3563;KEY_RING_MASK_CENTER_;"
+";sb_x_center;;
+;;;;;Label Name;lb_x_center
+;;;;;class;QSpinBox
+;;;;;minimum;-5000
+;;;;;maximum;10000
+;;;;;displayIntegerBase;10
+ring_radius;768;KEY_RING_RADIU;"// TBe 2018-01: inner/outer -> radius/width  (Dadurch auch fuer Entkippungsring geeignet)
+";sb_radius;;
+;;;;;Label Name;lb_radius
+ring_width;0;KEY_RING_WIDT;"
+";sb_ring_width;;
+;;;;;Label Name;lb_ring_width
+;;;;;class;QSpinBox
+;;;;;minimum;0
+;;;;;maximum;10000
+;;;;;displayIntegerBase;10
+ring_val_to_multiply;0.0001;KEY_RING_VAL_TO_MULTIPL;"
+";doubleSpinBox;;
+;;;;;class;QDoubleSpinBox
+;;;;;decimals;5
+;;;;;minimum;0
+;;;;;maximum;10
+;;;;;singleStep;0.0001
+;;;;;value;0.00001
+ring_center_follows_ref;True;KEY_RING_CENTER_FOLLOWS_RE;"
+";cb_center_ring_to_ref;;
+;;;;;class;QCheckBox
+;;;;;text;Bind center to ref. point
+autofocus_settings;;"KEY_AUTOFOCUS_SETTINGS			";"// collection of settings for autofocus
+";;;
+distance_estimate_mm_af;;KEY_AUTOFOCUS_DISTANCE_ESTIMATE_MM;"// distance estimate in mm for autofocus (float)
+";;;
+search_range_mm_af;;KEY_AUTOFOCUS_SEARCH_RANGE_MM_AF;"// search range around distance estimate in mm for autofocus (float)
+";sb_searchrange_af;;
+;;;;;Label Name;lb_searchrange_af
+;;;;;class;QDoubleSpinBox
+;;;;;toolTip;total search range for autofocus (z-scan)
+;;;;;suffix; mm
+;;;;;minimum;0.5
+;;;;;value;10
+idx_laser_af;;"KEY_AUTOFOCUS_IDX_LASER			";"// which laser for autofocus (int)
+";;;
+number_of_steps_af;;KEY_AUTOFOCUS_NUMBER_OF_STEPS_AF;"// how many distances in search range (int)
+";sb_numsteps_af;;
+;;;;;class;QSpinBox
+;;;;;toolTip;Number of planes where focus measure is calculated
+;;;;;minimum;2
+;;;;;Label Name;lb_numsteps_af
+filter_radius_af;;"KEY_AUTOFOCUS_FILTER_RADIUS		";"// filter for af (int)
+";;;
+propagation_method_af;;KEY_AUTOFOCUS_PROPAGATION_METHOD;"// method for af-propagation see PropagationMethod (enum)
+";;;
+additional_fine_search_af;;KEY_AUTOFOCUS_ADDITIONAL_FINE_SEARC;"// use second iteration of autofocus for more accurate focus (bool)
+";cb_fine_af;;
+;;;;;class;QCheckBox
+;;;;;toolTip;activates repitition of autofocus with reduced search range for higher accuracy
+;;;;;text;additional fine search
+continuous autofocus;;"KEY_AUTOFOCUS_DO_CONTINUOUS		";"// af on each image (bool)
+";;;
+center_af_ROI_from_ref_point;;KEY_AUTOFOCUS_CENTER_ROI_TO_REF_POIN;"// collection of settings for center of ROI for autofocus 
+";cb_center_ROI_to_ref;;
+;;;;;class;QCheckBox
+;;;;;toolTip;bind autofocus measure to reference point (right click on height map)
+;;;;;text;center ROI to ref. point
+;;;;;checkable;true
+;;;;;checked;true
+w_of_ROI_for_af;;"KEY_AUTOFOCUS_ROI_W				";"// size of ROI for autofocus (int)
+";;;
+h_of_ROI_for_af;;"KEY_AUTOFOCUS_ROI_H				";"// size of ROI for autofocus (int)
+";;;
+center_x_for_af;;"KEY_AUTOFOCUS_ROI_CENTER_X		";"// center of ROI for autofocus (int)
+";;;
+center_y_for_af;;"KEY_AUTOFOCUS_ROI_CENTER_Y		";"// center of ROI for autofocus (int)
+";;;
+mirrorlike_seurface_af;;"KEY_AUTOFOCUS_IS_MIRRORLIKE		";"// autofocus optimized for mirror-like srufaces (bool)
+";;;
+use_phase_image;;"KEY_AUTOFOCUS_USE_PHASE_IMAGE	";"// use phase image for af --> best on tilted surfaces (bool)
+";;;
+autofocus_result_dist_mm;;"KEY_AUTOFOCUS_RESULT_DIST_MM	";"
+";;;
+extended_depth_settings;;KEY_EXTENDED_DEPTH_SETTINGS;"// collection of settings for extended depth of field
+";;;
+extended_depth_active;False;"KEY_EXTDEPTH_ACTIVE			";"// extended depth of field on/off (bool)
+";;;
+extended_depth_multiplane_propagation;False;KEY_EXTDEPTH_MULTIPLANE_PROPAGATIO;"// use multiple planes for extended depth of field (bool)
+";cb_refocus_numerically;;
+;;;;;class;QCheckBox
+;;;;;enabled;false
+;;;;;text;Num. refocussing
+extended_depth_interpolate_multiplane;False;"KEY_INTERPOLATE_MULTIPLANE	";"// interpolate between multiple planes for extended depth of field (bool)
+";;;
+extended_depth_depthrange;6;"KEY_EXTDEPTH_SEARCHRANGE_MM	";"// search range for extentended depth of field in mm (float)
+";;;
+extended_depth_num_propagation_distances;4;KEY_EXTDEPTH_NUM_PROP_DISTANCES;"// number of planes for multi-plane extended depth of field (int)
+";sb_num_prop_distances;;
+;;;;;Label Name;lb_num_prop_distances
+;;;;;class;QSpinBox
+;;;;;minimum;1
+;;;;;maximum;50
+extended_depth_method;0;"KEY_EXTDEPTH_METHOD			";"// method for extended depth of field, see ExtendedDepthMethod (enum)
+";;;
+extended_depth_auto_tilt_estimation;False;KEY_EXTDEPTH_AUTO_TILT_ESTIMATIO;"// activate auto-tilt estimate if ExtendedDepthMethod is global_tilt_estimation (bool)
+";cb_tilt_estimation;;
+;;;;;class;QCheckBox
+;;;;;text;Auto. tilt estimation
+;;;;;checkable;true
+;;;;;checked;false
+extended_depth_tilt_x_deg;0;"KEY_EXTDEPTH_TILT_DEG_X		";"// tilt estimate if ExtendedDepthMethod is global_tilt_estimation (float)
+";;;
+extended_depth_tilt_y_deg;0;"KEY_EXTDEPTH_TILT_DEG_Y		";"// tilt estimate if ExtendedDepthMethod is global_tilt_estimation (float)
+";;;
+extended_depth_prop_planes_selection_method;0;KEY_EXTDEPTH_PROP_PLANES_METHOD;"// method for selection of spacing for for multi-plane extended depth of field see PropPlanesSelectionMethod (enum)
+";cb_prop_planes_selection;;
+;;;;;Label Name;lb_prop_planes_selection
+;;;;;class;QComboBox
+;;;;;text;Uniform distribution
+num_planes_SFF;2;"KEY_EXTDEPTH_NUM_PLANES_SFF	";"// number of planes for shape from focus if ExtendedDepthMethod is shape_from_focus (int)
+";;;
+filter_radius_SFF;0;"KEY_EXTDEPTH_FILTER_SFF		";"// filter radius for shape from focus if ExtendedDepthMethod is shape_from_focus (int)
+";;;
+threshold_SFF;0;"KEY_THRESHOLD_SFF			";"// ampliude threshold for shape from focus if ExtendedDepthMethod is shape_from_focus (float)
+";;;
+smooth_SFF_with_synth;False;KEY_EXTDEPTH_SMOOTH_SFF_WITH_SYNT;"// use phase for smoothing of shape-from-focus-image (bool)
+";cb_smooth_sff_with_synth;;
+;;;;;class;QCheckBox
+;;;;;text;smooth with synth
+;;;;;checkable;true
+;;;;;checked;false
+radius_open_sff_mask;0;"KEY_EXTDEPTH_RADIUS_OPEN_SFFMASK	";"// radius for open-operation shape from focus if ExtendedDepthMethod is shape_from_focus (int)
+";;;
+radius_close_sff_mask;0;"KEY_EXTDEPTH_RADIUS_CLOSE_SFFMASK	";"// radius for close-operation shape from focus if ExtendedDepthMethod is shape_from_focus (int)
+";;;
+extended_depth_center_ROI_to_refpoint;True;KEY_EXTDEPTH_CENTER_TO_GLOBALRE;"// collection of settings for reference point if ExtendedDepthMethod is unwrap_linewise
+";cb_center_ROI_to_ref;;
+;;;;;class;QCheckBox
+;;;;;toolTip;bind autofocus measure to reference point (right click on height map)
+;;;;;text;center ROI to ref. point
+;;;;;checkable;true
+;;;;;checked;true
+extended_depth_center_x;5120;"KEY_EXTDEPTH_ROI_CENTER_X	";"//  center for reference point if ExtendedDepthMethod is unwrap_linewise (int)
+";;;
+extended_depth_center_y;3563;"KEY_EXTDEPTH_ROI_CENTER_Y	";"//  center for reference point if ExtendedDepthMethod is unwrap_linewise (int)	
+";;;
+extended_depth_cad_load_model;False;"KEY_EXTDEPTH_CAD_LOAD_MODEL	";"// filename for CAD Model if ExtendedDepthMethod is cad_matching (string)
+";;;
+extended_depth_display_diff_with_cad;False;KEY_EXTDEPTH_DISPLAY_DIFF_WITH_CA;"// display diff from CAD if ExtendedDepthMethod is cad_matching (bool)
+";cb_cad_display_difference;;
+;;;;;class;QCheckBox
+;;;;;text;Display difference
+geometrical corrections;;KEY_GEOMETRICAL_CORRECTIONS;"// collection of settings to correct errors introduced by extended numerical aperature
+";;;
+apply_aperture_correction;False;"KEY_GEOCORCT_APPLY_APERTURE		";"// aperture correction on/off (bool)
+";;;
+apply_sensitivity;False;"KEY_GEOCORCT_APPLY_SENSITIVITY	";"// correction of sensitivity vector according to camera_settings on/off (bool)
+";;;
+radius_mirror_filter;1;KEY_GEOCORCT_RADIUS_MIRRORFILTER;"// radius for filtering for mirror-detection (int)
+";sb_filter_mirror;;
+;;;;;Label Name;lb_filter_mirror
+;;;;;class;QSpinBox
+;;;;;minimum;1
+;;;;;maximum;5
+threshold_mirror_filter;0.5;KEY_GEOCORCT_THRESHOLD_MIRRORFILTER;"// thredhold on filtered amplitude for mirror-detection (float)
+";sb_thres_mirror;;
+;;;;;class;QDoubleSpinBox
+;;;;;maximum;1
+;;;;;singleStep;0.1
+;;;;;value;0.5
+;;;;;Label Name;lb_thres_mirror
+gradual_aperture_correction;False;KEY_GEOCORCT_GRADUAL_APERTURECORRECTIO;"// gradual aperture correction on/off (bool)
+";cb_gradual_correction;;
+;;;;;class;QCheckBox
+;;;;;text;Gradual correction
+reference_offset_result_settings;;KEY_REFERENCE_RESULT_SETTING;"// collection of settings for global offset compensation
+";;;
+reference_combination_settings;;KEY_REFERENCE_COMBINATION_SETTING;"// collection of settings to compensate offset between multiple synth lambas
+";;;
+reference_point_offset_result_method;0;KEY_REFERENCE_POINT_OFFSET_RESULT_METHOD;"// method for offset compensation, global, see OffsetCompensationMethod(enum)
+";method;;
+reference_point_offset_combination_method;0;KEY_REFERENCE_POINT_OFFSET_COMBINATION_METHO;"// method for offset compensation, multiple synth lambas, see OffsetCompensationMethod (enum)
+";method;;
+x_center_roi_reference_point;6447;"KEY_REFERENCE_POINT_ROI_CENTER_X		";"// center of refpoint (if used) in px (int)
+";;;
+y_center_roi_reference_point;3563;"KEY_REFERENCE_POINT_ROI_CENTER_Y		";"// center of refpoint (if used) in px (int)
+";;;
+w_reference_point_roi;4;"KEY_REFERENCE_POINT_ROI_W				";"// size of ROI around refpoint (if used) in px (int)
+";;;
+h_reference_point_roi;4;"KEY_REFERENCE_POINT_ROI_H				";"// size of ROI around refpoint (if used) in px (int)
+";;;
+phase_value_reference_point;0;"KEY_REFERENCE_POINT_PHASE_VALUE			";"// phase value to be applied for global offset compensation (if used) in px (int)
+";;;
+mirror_only_for_reference;False;"KEY_REFERENCE_POINT_MIRROR_ONLY			";"// offset-compensation: use mirror-like areas only (bool)
+";;;
+noise_reduction_settings;;KEY_NOISE_DETECTION_SETTING;"// collection of settings for noise reduction
+";;;
+key_noise_detection_method;0;"KEY_NOISE_DETECTION_METHOD	";"// method for noise detection (see NoiseDetectionMethods) (enum
+";;;
+key_noise_detection_filter_radius;3;KEY_NOISE_DETECTION_FILTER_RADIU;"// filter radius for noise detection (int)
+";sb_radius;;
+;;;;;Label Name;lb_radius
+key_noise_detection_cutoff;1.57;"KEY_NOISE_DETECTION_CUTOFF	";"// cut off  for noise detection in FFT space (float)
+";;;
+key_noise_detection_order;3;"KEY_NOISE_DETECTION_ORDER	";"// order to define steepness of cut off in FFT space (float)
+";;;
+convert_to_height_unit;;CONVERT_TO_HEIGHT_UNIT;"// height conversion at the end of evaluation: micron, mm, m or phase in rad
+";cb_scale_unit;;
+;;;;;Label Name;lb_scale_unit
+;;;;;class;QComboBox
+;;;;;text;no_unit (=phase)
+revert_untilt;;REVERT_UNTILT;"// revert tilt compensation at the end of eval.
+";cb_revert_untilt;;
+;;;;;class;QCheckBox
+;;;;;text;revert detilt
+do_transpose;;TRANSPOSE;"// image transpose on/off
+";cb_transpose;;
+;;;;;class;QCheckBox
+;;;;;text;transpose
+rotation_type;;ROTATION_TYPE;"// rotate image by: (0): 0 deg, (1): 90 deg, (2): 180, (3): 270
+";cb_rotation;;
+;;;;;class;QComboBox
+;;;;;text;0 degrees
+;;;;;Label Name;lb_rotation
+height_conversion_settings;;KEY_HEIGHT_CONVERSTION_SETTING;"// collection of settings for in-focus-detection
+";;;
+polygon_points;;KEY_POLYGON_POINTS;"// points describing a polygon
+";;;
+mask_value;;KEY_POLYGON_MASK_VALUE;"// value to set for respective polygon filing (0: mask out polygon filling; 1: use data inside polygon)
+";;;
+polygon_nr;;KEY_POLYGON_IDX;"// for multiple polygons in mask definition: count them to keep order
+";;;
+list of mask polygons;;KEY_LIST_MASK_POLYGON;"// collection of polygons decribing a mask
+";;;
+threshold_led_mask;0;KEY_LED_MASK_THRESHOL;"// threshold for masking based on LED image (float)
+";sb_mask_threshold;;
+;;;;;Label Name;lb_mask_threshold
+;;;;;class;QSpinBox
+;;;;;maximum;60000
+apply_led_mask;False;KEY_LED_MASK_APPL;"// use LED mask (bool)
+";cb_apply_led_mask;;
+;;;;;class;QCheckBox
+;;;;;text;Apply LED mask
+led_mask_image_index;0;KEY_LED_MASK_IMAG;"// wich LED image to use (int)
+";sb_mask_image;;
+;;;;;Label Name;lb_mask_image
+;;;;;class;QSpinBox
+;;;;;maximum;2
+lambdas_m;;KEY_NEW_LAMBDAS_;"
+";;;
+px_size_m;;KEY_PIXEL_SIZE_M;"
+";;;
+hardware_data_obj;;KEY_HARDWARE_DAT;"// collection of hardware settings for current object type
+";;;
+post_procssessing_data_obj;;KEY_POSTPROCESSING_DAT;"//#define KEY_POSTPROCESSING_DATA ""post_procssessing_data_obj""
+";;;
+load_instead_of;0;KEY_LOAD_INSTEAD_OF_STE;"// what kind of data to be loaded (enum)
+";;;
+load_filename;;KEY_LOAD_FILENAM;"// name of file to load (String)
+";;;
+image display number;0;KEY_DISPLAY_NUMBE;"// int
+";sb_im_number;;
+;;;;;Label Name;lb_im_number
+;;;;;class;QSpinBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;22
+display phase;True;KEY_DISPLAY_PHAS;"// bool
+";rb_phase;;
+;;;;;class;QRadioButton
+;;;;;minimumSize;
+;;;;;minimumWidth;80
+;;;;;minimumHeight;20
+;;;;;text;Display phase/height
+;;;;;checked;true
+display_mode;1;KEY_DISPLAY_MOD;"// int : Display iamge yes/no/reduced...
+";cb_display_mode;;
+;;;;;Label Name;lb_display_mode
+;;;;;class;QComboBox
+;;;;;minimumSize;
+;;;;;minimumWidth;0
+;;;;;minimumHeight;22
+;;;;;currentIndex;-1
+hardware settings;;KEY_HARDWARE_SETTING;"
+";;;
+sim_tiff_path;;KEY_SIM_TIFF_PAT;"
+";le_raw_tiff_path;;
+;;;;;class;QLineEdit
+pause_mode;False;KEY_PAUSE_MOD;"// activate Pause-Modus, i.e. stop camera and re-evaluate current data (bool)
+";cb_pause_mode;;
+;;;;;class;QCheckBox
+;;;;;font;
+;;;;;text;PAUSED MODE
+;;;;;iconSize;
+modulation;;KEY_MEAN_MODULATIO;"
+";;;
+mean_brightness;;KEY_MEAN_BRIGHTNES;"
+";;;
+median_brightness;;KEY_MEDIAN_BRIGHTNES;"
+";;;
+cai_phase_steps;;KEY_CAI_PHASE_STEP;"// Bis 2017-03-17 nur ""KEY_PHASE_STEPS"". TBe: umbenannt, um von KEY_NUM_PHASE_STEPS abzugrenzen.
+";;;
+count_over_exposed;;KEY_COUNT_OVEREXPOSE;"
+";;;
+smoothness_ref_single_lasers;;KEY_SMOOTHNESS_REF_AREA_SINGLE_LASER;"
+";;;
+variation sigmas of grayvals;;KEY_VARIATION_OF_GRAYVALSIGMA;"
+";;;
+modulation in valid range;;KEY_MODULATION_IN_VALID_RANG;"
+";;;
+smoothness in valid range;;KEY_SMOOTHNESS_IN_VALID_RANG;"
+";;;
+phase steps in valid range;;KEY_PHASE_STEPS_IN_VALID_RANG;"
+";;;
+sigmas of grayvals in valid range;;KEY_VARIATION_OF_GRAYVALSIGMAS_IN_VALID_RANG;"
+";;;
+SNR (SPS) in valid range;;KEY_SNR_SPS_IN_VALID_RANG;"
+";;;
+snr fft;;KEY_SIGNAL_TO_NOISE_FF;"
+";;;
+signal-quality-indicators;;KEY_SIGNAL_QUALITY_INDICATOR;"
+";;;
+is_espi_measurement;;KEY_IS_ESP;"
+";;;
+combined (amp);True;;;;;
+combined (phase);True;;;;;
