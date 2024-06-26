@@ -33,7 +33,7 @@ $ pip install -r requirements.txt
 ### Usage
 **It is recommended to maintain the folder structure as provided in the repository.**
 
-The program `Control_subprocesses.py` runs a whole simulation cycle. A `.json` must be given as the input for the simulated measurement. It is recommended to start with the provided `TEST_JSON.jso`. If you want to choose the communication inteface individually, please mind the following steps:
+The program `Control_subprocesses.py` runs a whole simulation cycle. A `.json` must be given as the input for the simulated measurement. It is recommended to start with the provided `JSON_Test_ok.jso` or `JSON_Test_bug.jso` (with a unknown parameter). If you want to choose the communication inteface individually, please mind the following steps:
 
 1. Ensure that the following files are in one folder:
    - Example_LogFile.txt
