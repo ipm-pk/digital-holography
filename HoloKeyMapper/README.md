@@ -28,7 +28,7 @@ $ pip install PySide6==6.6.1
 The file `holokeymapper_backend.py` includes the logic of this module. `holokeymapper_gui.py` is only a graphical user interface. `test_holokeymapper.py` runs a unittest for a given examples. 
 
 1. Open the graphical user interface `holokeymapper_gui.py`.
-2. Select the folder containing the JSON file and other files by pressing the `Search source code folder` button for loading source code (`.json`, `.cpp`, `.h` files) or `Load csv file`.
+2. Select the folder containing the JSON file and other files by pressing the `Import Source Files` button for loading source code (`.json`, `.cpp`, `.h` files) or `Load CSV`.
 3. The program will automatically map the keys and display them in the GUI.
 4. Use the search function to find specific keys quickly.
 
@@ -36,7 +36,7 @@ If you have source code, you can
 
 5. Right-click on a key to access the corresponding files.
 6. Click on a filename to open a separate window displaying the surrounding lines of the key.
-7. If you want to save the keys, press the `Create CSV` button.
+7. If you want to save the keys, press the `Export CSV` button.
 
 From a loaded `.csv` file, the latter options are not available.
 
