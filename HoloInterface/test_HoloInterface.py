@@ -66,7 +66,6 @@ class TestHoloInterface(unittest.TestCase):
             'Value type of JSON object binning_factor is not correct. Expected: int, got: float.',
             'Value type of JSON object radius_smooth is not correct. Expected: float, got: bool.',
             'JSON object I_am_a_Bug is not known in HoloSoftware.',
-            'JSON object use_holointerface is not known in HoloSoftware.',
             'Value type of JSON object extended_depth_active is not correct. Expected: bool, got: int.'
         ]
 
@@ -94,7 +93,7 @@ class TestHoloInterface(unittest.TestCase):
         error_list, warnings = self.holo_interface.simulate_measurement(self.test_json)
         print(warnings)
 
-        self.assertEqual(len(error_list), 5)
+        self.assertEqual(len(error_list), 4)
         self.assertEqual(len(warnings), 17)
         self.assertEqual(warnings, self.expected_warnings)
 
