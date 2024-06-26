@@ -1,10 +1,14 @@
 # HoloKeyMapper
 
-**Description:** This project consists of a graphical user interface (GUI) and a program that maps keys from different files together. The program takes a folder as input, which should contain a JSON file and all the files to be searched through. The folder can be selected using the GUI. 
+**Description:** This project consists of a graphical user interface (GUI) and a program that can map parameters from different hologrpahy module source files together from source files and a pre-created CSV-file.
 
-The program first searches through the .h files to find the `.jso` - `.h` pairs and then searches the `.jso` for the given values for each key. Then the corresponding `.cpp` names, and finally searches for those keys in the `.gui` files. The GUI displays each pair of keys in a collapsible view. It also provides a search function to quickly find specific keys. If the source code files are not available, a CSV file with the corresponding information can also be loaded.
+For `Fraunhofer IPM developers`, the program can be used  as follows: It takes a folder as input, which should contain a JSON file and all the files to be searched through (`.h`, `.cpp`, `.gui` and `IPM_Holo_GLobals.h`). The folder can be selected using the GUI.
+
+The program first searches through the .h files to find the `.jso` - `.h` pairs and then searches the `.jso` for the given values for each key of the `IPM_Holo_Globals.h`. Then the corresponding `.cpp` names, and finally searches for those keys in the `.gui` files. The GUI displays each pair of keys in a collapsible view. It also provides a search function to quickly find specific keys. If the source code files are not available, a CSV file with the corresponding information can also be loaded.
 
 When right-clicking on a key, a menu opens showing the files that correspond to that key. Clicking on a filename opens a separate window that displays 10 lines above and 10 lines below where the key was found.
+
+For `External developers`, a pre-created and exported `.csv`, which is part of the `HoloInterface` project, can be used which contains the full mapping but no source code. 
 
 ## Getting Started
 
@@ -28,7 +32,7 @@ $ pip install PySide6==6.6.1
 The file `holokeymapper_backend.py` includes the logic of this module. `holokeymapper_gui.py` is only a graphical user interface. `test_holokeymapper.py` runs a unittest for a given examples. 
 
 1. Open the graphical user interface `holokeymapper_gui.py`.
-2. Select the folder containing the JSON file and other files by pressing the `Import Source Files` button for loading source code (`.json`, `.cpp`, `.h` files) or `Load CSV`.
+2. Select the folder containing the JSON file and other files by pressing the `Import Source Files` button for loading source code (`.jso`, `.cpp`, `.h` files) or `Load CSV`.
 3. The program will automatically map the keys and display them in the GUI.
 4. Use the search function to find specific keys quickly.
 
