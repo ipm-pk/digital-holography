@@ -2,7 +2,7 @@
 
 **Description:** This project consists of a graphical user interface (GUI) and a program that maps keys from different files together. The program takes a folder as input, which should contain a JSON file and all the files to be searched through. The folder can be selected using the GUI. 
 
-The programme first searches through the .h files to find the `.jso` - `.h` pairs and then searches the `.jso` for the given values for each key. Then the corresponding `.cpp` names, and finally searches for those keys in the `.gui` files. The GUI displays each pair of keys in a collapsible view. It also provides a search function to quickly find specific keys. If the source code files are not available, a CSV file with the corresponding information can also be loaded.
+The program first searches through the .h files to find the `.jso` - `.h` pairs and then searches the `.jso` for the given values for each key. Then the corresponding `.cpp` names, and finally searches for those keys in the `.gui` files. The GUI displays each pair of keys in a collapsible view. It also provides a search function to quickly find specific keys. If the source code files are not available, a CSV file with the corresponding information can also be loaded.
 
 When right-clicking on a key, a menu opens showing the files that correspond to that key. Clicking on a filename opens a separate window that displays 10 lines above and 10 lines below where the key was found.
 
