@@ -1,4 +1,5 @@
 import asyncio
+import json
 
 # import copy
 import logging
@@ -6,48 +7,49 @@ import math
 import os
 import random
 import time
-import json
 from datetime import datetime
 
 from asyncua import Server, ua, uamethod
+
 from HoloInterfaceTcpClient import InterfaceTcpClient
 
+
 class holo_opcua_server:
-    '''
+    """
     Class for the OPC UA server. It is used to create the server and link the methods to the holo client.
-    '''
-    def __init__(self):
-        '''Constructor for the OPC UA server class. Initializes the server and the holo client.'''
+    """
+
+    def __init__(self, host: str = "0.0.0.0", port: str = "4840"):
+        """Constructor for the OPC UA server class. Initializes the server and the holo client."""
         self.measurement_duration = 0.25  # Estimated time for a holographic measurement
         self.opc_ua_server = Server()
-        self.opc_ua_endpoint = "opc.tcp://0.0.0.0:4840/freeopcua/server/"
+        self.opc_ua_endpoint = f"opc.tcp://{host}:{port}/freeopcua/server/"
         self.opc_ua_server_name = "Fraunhofer IPM Holography Sensor"
         # Set to remember the concurrent tasks and prevent early garbage collection
         self.tasks = set()
         # Dict for variables (capability and property nodes are stored here later)
         self.opc_ua_variables = {}
         # Set up holo client
+        self.connected_to_simulated_interface = True
         self.holo_client = InterfaceTcpClient()
 
-    async def connect_tcp_client(self, host='localhost', port=1234):
-        '''Function to connect the holo client to the server.'''
+    async def connect_tcp_client(self, host="localhost", port: str = "1234"):
+        port = int(port)
+        """Function to connect the holo client to the server."""
         self.holo_client.connectToServer(host, port)
 
     async def check_measurement_uri_format(self, uris):
-        '''Passed argument is expected to be a list of strings, representing measurement files.'''
-        if not isinstance(uris, list) or not uris:
+        """Passed argument is expected to be a list of strings, representing measurement files."""
+        if not isinstance(uris, list):
             return False
-        for u in uris:
-            if not isinstance(u, str) or not os.path.isfile(u):
-                return False
         return True
 
     async def estimate_evaluation_duration(self, uris):
-        '''Estimate the duration of the evaluation based on the length of measurement files.'''
+        """Estimate the duration of the evaluation based on the length of measurement files."""
         return 0.5 + math.exp(0.1 * (len(uris) - 1))
 
     async def get_child_by_name(self, name):
-        '''Function to get a child node by its name.'''
+        """Function to get a child node by its name."""
         server_objects = await self.opc_ua_server.get_root_node().get_children()
         for obj in server_objects:
             obj_display_name = await obj.read_display_name()
@@ -57,10 +59,10 @@ class holo_opcua_server:
                 print(obj_display_name.Text)
 
     async def start_opc_ua_server(self):
-        '''
-        Function to start the OPC UA server. 
+        """
+        Function to start the OPC UA server.
         It initializes the server and links the methods to the holo client.
-        '''
+        """
         print("Starting OPC UA Server")
         # Init server
         await self.opc_ua_server.init()
@@ -75,13 +77,9 @@ class holo_opcua_server:
         swap_nodes_path = os.path.join(current_dir, "swap_common_nodeset_export.xml")
         holo_nodes_path = os.path.join(current_dir, "swap_holography_ipm_export.xml")
         # Import the nodes from the xml files
-        swap_nodes = await self.opc_ua_server.import_xml(
-            swap_nodes_path
-        )
-        holo_nodes = await self.opc_ua_server.import_xml(
-            holo_nodes_path
-        )
-        
+        swap_nodes = await self.opc_ua_server.import_xml(swap_nodes_path)
+        holo_nodes = await self.opc_ua_server.import_xml(holo_nodes_path)
+
         # Get correct namespace idx
         namespaces = await self.opc_ua_server.get_namespace_array()
         self.namespace_idx_swap = namespaces.index("http://common.swap.fraunhofer.de")
@@ -109,17 +107,13 @@ class holo_opcua_server:
         await self.link_variables()
         await self.link_services()
         await self.link_events()
-        
+
         print("OPC UA Server started")
 
     async def link_variables(self):
         # All variables must be linked here. Otherwise they exist in the opc_ua_server,
         # but are not connected to actual function calls.
         variables = {
-            # TODO: Alternativ die nodes in capabilities und properties durchiterieren und prüfen,
-            # ob es einen gleichen key in einem bereitgestellten dict gibt.
-            # In dem Fall den Wert zuweisen.
-            # So braucht man das hier nicht hard-coden sondern könnte z.B. ein config file laden.
             "Calibrated": ["Capabilities", True],
             "ResolutionAxial": ["Capabilities", 1e-3],
             "ResolutionLateral": ["Capabilities", 2 * 3.2e-3],
@@ -184,12 +178,12 @@ class holo_opcua_server:
                 f"{self.namespace_idx_swap}:ServiceFinishedEventType",
             ]
         )
-        self.event_type_node = await sfet.get_child(
+        event_type_node = await sfet.get_child(
             [f"{self.namespace_idx_ipm}:MeasurementDone"]
         )
         # Create a new event of respective type
         self.eventgen_measurement_done = await self.opc_ua_server.get_event_generator(
-            self.event_type_node, self.opc_ua_HoloModuleObj
+            event_type_node, self.opc_ua_HoloModuleObj
         )
         # Get the event type
         event_type_node = await sfet.get_child(
@@ -234,7 +228,7 @@ class holo_opcua_server:
             ServiceResultCode=sync_result_code,
         )
         return ua.Variant(service_execution_result, ua.VariantType.ExtensionObject)
-            
+
     @uamethod
     async def request_evaluation(self, parent, eval_type, measurements_uri):
         # This function starts a threat to run the holo client function and returns immediately
@@ -271,43 +265,37 @@ class holo_opcua_server:
             ServiceResultCode=sync_result_code,
         )
         return ua.Variant(service_execution_result, ua.VariantType.ExtensionObject)
-    
+
     async def simulate_measurement(self, json_cfg):
-        '''Function to simulate a measurement with the HoloInterface.'''
+        """Function to simulate a measurement with the HoloInterface."""
 
         # Send JSON to the HoloInterface_
         self.holo_client.sendMessage(json_cfg)
 
         # Wait for answer and prepare the event to trigger:
         await asyncio.sleep(self.measurement_duration)
-        result = self.holo_client.receiveMessage()      # Get answer from HoloInterface
+        result = self.holo_client.receiveMessage()  # Get answer from HoloInterface
+        print(f"Result: {result}")
         start_index = result.find("[")
         end_index = result.find("]")
-        error_list = result[start_index+1:end_index]    # Cut the "[]" from the string
-        error_list = error_list.split(",")              # Split the string into a list
+        error_list = result[start_index + 1 : end_index]  # Cut the "[]" from the string
+        error_list = error_list.split(",")  # Split the string into a list
 
-        if len(error_list) <= 1:
+        if len(error_list) < 1:
             event_text = "Simulation finished without errors."
 
         else:
-            event_text = f"Simulation finished with {len(error_list) - 1} errors!"
+            event_text = f"Simulation finished with {len(error_list)} errors!"
 
         return event_text
 
     async def real_measurement(self, json_cfg):
-        '''Function to trigger a real measurement with the HoloSoftware.'''
-
-        # Because the TCP Client connects automatically to the TCP Server 
-        # of the HoloInterface, we need to disconnect and reconnect to the
-        # TCP server of the HoloSoftware.
-        self.holo_client.disconnect()
-        self.holo_client.connectToServer(host="127.0.0.2", port=2025)
+        """Function to trigger a real measurement with the HoloSoftware."""
         json_cfg = json.loads(json_cfg)
         # Trigger and wait for measurement:
         self.holo_client.slot_request_measurement(additional_json=json_cfg)
 
         ret = self.holo_client.wait_for_measurement_finish()
-
         if ret == 110:
             event_text = "Real measurement finished successfully."
 
@@ -316,7 +304,8 @@ class holo_opcua_server:
 
         return event_text
 
-    async def holo_interface_measurement(self, json_cfg):  # Call the holo client
+    async def holo_interface_measurement(self, json_cfg):
+        """Call the holo TCP client"""
         start_time = time.time()
         # Get and create the output directory for holo client
         try:
@@ -324,7 +313,7 @@ class holo_opcua_server:
         except KeyError:
             release_dir = os.environ["HOLO_RELEASE_DIR"]
             out_path = os.path.join(release_dir, "output")
-        #file_tools.safe_mkdir(out_path)
+        # file_tools.safe_mkdir(out_path)
         date_str = datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
         filename = os.path.join(out_path, f"OPCUA_{date_str}.tiff")
         filename_raw = os.path.join(out_path, f"OPCUA_{date_str}_raw.tiff")
@@ -340,12 +329,23 @@ class holo_opcua_server:
             # TODO: This if-else should be in two different functions.
             # In order to do so a new Node should be created in the XML file.
             # Then the client can call the function by the name of the node.
-            if json.loads(json_cfg)['use_holointerface'] is True:
+            if json.loads(json_cfg)["use_holointerface"] is True:
                 # Trigger simulation and get result:
+                if not self.connected_to_simulated_interface:
+                    self.holo_client.disconnect()
+                    self.holo_client.connectToServer(host="127.0.0.2", port=1234)
+                    self.connected_to_simulated_interface = True
                 event_text = await self.simulate_measurement(json_cfg)
 
             else:
                 # Trigger real measurement and get result:
+                # Because the TCP Client connects automatically to the TCP Server
+                # of the HoloInterface, we need to disconnect and reconnect to the
+                # TCP server of the HoloSoftware.
+                if self.connected_to_simulated_interface:
+                    self.holo_client.disconnect()
+                    self.holo_client.connectToServer(host="127.0.0.2", port=2025)
+                    self.connected_to_simulated_interface = False
                 event_text = await self.real_measurement(json_cfg)
 
         except OSError as err:
@@ -360,82 +360,83 @@ class holo_opcua_server:
             )
         else:
             self.eventgen_measurement_done.event.ServiceExecutionResult = 0
-            self.eventgen_measurement_done.event.Message = ua.LocalizedText(
-                event_text
-            )
+            self.eventgen_measurement_done.event.Message = ua.LocalizedText(event_text)
 
         # Trigger event:
         execution_time = time.time() - start_time
         self.eventgen_measurement_done.event.ExecutionTime = float(execution_time)
         self.eventgen_measurement_done.event.URI = filename
         await self.eventgen_measurement_done.trigger()
-        print('OPC UA Server: Event triggered')
-
-        # Crate task to wait for the measurement to finish:
-        #loop = asyncio.get_event_loop()
-        #task = loop.create_task(self.wait_for_simulation())
-        #self.tasks.add(task)
-        #result = await task
-        #print('RESULLLLLLLLLLLLLLLLLLLT:', result)
+        print("OPC UA Server: Event triggered")
 
     async def holo_client_evaluation(self, eval_type, measurements_uri):
         # HACK: created a mockup here, usually the holo client is called like:
         # TODO:  await holo_client.slot_request_measurement()
         ExecutionTime = await self.estimate_evaluation_duration(measurements_uri)
         ExecutionTime = ExecutionTime + random.gauss(0, 0.1)
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
-        filename = f"Evaluation_{eval_type}_{timestamp}.txt"
         await asyncio.sleep(ExecutionTime)
         try:
-            with open(filename, mode="a"):
-                pass
+            for m_uri in measurements_uri:
+                with open(m_uri, mode="a"):
+                    pass
+                self.eventgen_evaluation_done.URI = "Evaluation simulation successful."
         except OSError:
             self.eventgen_measurement_done.ServiceExecutionResult = 1  # Fail
+            self.eventgen_evaluation_done.URI = "Error during evaluation simulation."
         else:
             self.eventgen_measurement_done.ServiceExecutionResult = 0  # Success
-        self.eventgen_evaluation_done.URI = filename
         # When measurement is done, trigger event
+        print(self.eventgen_evaluation_done.URI)
         await self.eventgen_evaluation_done.trigger()
 
     async def wait_for_simulation(self):
-        '''Function to wait for the measurement to finish.
+        """Function to wait for the measurement to finish.
         It then asks the holo client to receive the message.
-        '''
+        """
 
         await asyncio.sleep(self.measurement_duration)
         print(self.measurement_duration)
         result = self.holo_client.wait_for_measurement_finish()
         return result
 
+
 async def check_measurement_format(uris):
-    '''
+    """
     Function for checking the format of the measurement URIs
     # TODO: Check the JSON data more thoroughly
-    '''
+    """
     try:
         json_data = json.loads(uris)
 
         # Check if the JSON data contains the correct function name
-        if 'simulate_measurement' in json_data and isinstance(json_data['simulate_measurement'], dict):
-            return 'Measurement format for simulation'
-        elif isinstance(json_data, dict) and 'simulate_measurement' not in json_data:
-            return 'Measurement format for real measurement'
+        if "simulate_measurement" in json_data and isinstance(
+            json_data["simulate_measurement"], dict
+        ):
+            return "Measurement format for simulation"
+        elif isinstance(json_data, dict) and "simulate_measurement" not in json_data:
+            return "Measurement format for real measurement"
         else:
-            return 'Wrong function name in JSON data'
+            return "Wrong function name in JSON data"
     except json.JSONDecodeError as e:
-        return 'Wrong format: ' + str(e)
+        return "Wrong format: " + str(e)
 
-async def main():
-    # starting!
-    opcua_server = holo_opcua_server()
+
+async def main(
+    ip_opcua: str = "localhost",
+    port_opcua: str = "4840",
+    ip_holo: str = "localhost",
+    port_holo: str = "1234",
+):
+    opcua_server = holo_opcua_server(ip_opcua, port_opcua)
     await opcua_server.start_opc_ua_server()
 
-    await opcua_server.connect_tcp_client()
+    await opcua_server.connect_tcp_client(host=ip_holo, port=port_holo)
     opcua_server.holo_client.receiveMessage()
 
     async with opcua_server.opc_ua_server:
         while True:
             await asyncio.sleep(0.1)
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.ERROR)

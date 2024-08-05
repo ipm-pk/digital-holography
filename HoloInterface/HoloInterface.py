@@ -5,14 +5,16 @@ Author - Manuel Eschborn
 Date - 2024-03-19
 Coding: utf-8
 '''
-import sys
-from datetime import datetime, timedelta
 import csv
 import os
 import re
+import sys
+from datetime import datetime, timedelta
+
 from PySide6.QtWidgets import QApplication, QMainWindow
 
 from HoloInterfaceTcpServer import HoloInterfaceTcpServer
+
 
 class JsonObject:
     """

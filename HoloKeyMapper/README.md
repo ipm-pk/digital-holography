@@ -15,17 +15,14 @@ For `External developers`, a pre-created and exported `.csv`, which is part of t
 These instructions will guide you on how to set up and use the application on your local machine.
 
 ### Prerequisites
-- [Pyhon](https://www.python.org/) - Version: 3.10.4
+- [Pyhon](https://www.python.org/) - Version: >= 3.10.4
 - [PySide6](https://doc.qt.io/qtforpython-6/) - Version: 6.6.1
 
 ### Installation
 
 1. Clone the repository.
-2. Install the required libraries using the following command:
-
-```bash
-$ pip install PySide6==6.6.1
-```
+2. Install a suitable python version.
+3. Install the required libraries using the supplied requirements.txt.
 
 ### Usage
 

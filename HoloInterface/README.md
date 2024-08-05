@@ -1,5 +1,7 @@
 # HoloInterface
 
+**Limitations:** This software is shipped with a simulated Holo-Software interface, for testing purposes. To get the full software package, please contact Fraunhofer IPM.
+
 **Description:** HoloInterface is a software developed to facilitate the evaluation of the [`HoloTop`](https://www.ipm.fraunhofer.de/en/bu/production-control-inline-measurement-techniques/systems/holo-top.html) sensors by Fraunhofer IPM customers. It offers two modes of operation: TCP interface simulation and OPC UA interface control. It can help future customers to test the TCP/OPC UA connection. It can also be used to try different settings in order to make sure the sensor fits the individual needs of your measurement task.
 
 The software features a TCP server that listens for incoming JSON messages containing the desired measurement settings. Upon receiving a JSON message, HoloInterface compares the provided settings with the default values and generates a comprehensive log file, emulating the behavior of the original software.
@@ -14,7 +16,7 @@ These instructions will guide you on how to set up and use the HoloInterface sof
 
 ### Prerequisites
 
-- [Pyhon](https://www.python.org/) - Version: 3.10.4
+- [Pyhon](https://www.python.org/) - Version: > 3.10.4
 - [asyncua](https://github.com/FreeOpcUa/opcua-asyncio) - Version: 0.9.98
 - [asyncio](https://docs.python.org/3/library/asyncio.html) - Version: 3.4.3
 - [PySide6](https://doc.qt.io/qtforpython-6/) - Version: 6.6.1
@@ -23,32 +25,20 @@ These instructions will guide you on how to set up and use the HoloInterface sof
 ### Installation
 
 1. Clone the repository.
-2. Install the required libraries using the following command:
-3. Set up environmental variable `HOLO_RELEASE_DIR` to e. g. `C:\holo_realease`
-
-```bash
-$ pip install -r requirements.txt
-```
+2. Install a suitable python version.
+3. Install the required libraries using the supplied requirements.txt.
+4. Set up environmental variable `HOLO_RELEASE_DIR` to e. g. `C:\holo_release`
 
 ### Usage
 **It is recommended to maintain the folder structure as provided in the repository.**
 
-The program `Control_subprocesses.py` runs a whole simulation cycle. A `.json` must be given as the input for the simulated measurement. It is recommended to start with the provided `JSON_Test_ok.jso` or `JSON_Test_bug.jso` (with a unknown parameter). If you want to choose the communication inteface individually, please mind the following steps:
+The program `Control_subprocesses.py` runs a whole simulation cycle. A `.json` must be given as the input for the simulated measurement. It is recommended to start with the provided `JSON_Test_ok.jso` or `JSON_Test_bug.jso` (with an unknown parameter). 
 
-1. Ensure that the following files are in one folder:
-   - Example_LogFile.txt
-   - key_list.csv
-   - HoloInterface.py
-   - InterfaceTcpServer.py
+If you want to choose the communication interface individually, please mind the following steps:
+1. If you want to connect to the HoloSensor using OPC UA, an instance of the HoloInterfaceTcpServer needs to be running. This is a proprietary interface which can also be used independently. Establish a TCP connection using the provided client to communicate with HoloInterface. 
+2. Next, start the OpcUaServer. This OPC UA server will then try to connect to the proprietary TCP interface of the HoloSensor. For this it is probably required to adjust the connection parameters. Please set the correct IP and port, default is localhost.
 
-2. Establish a TCP connection using the provided client to communicate with HoloInterface.
-   - You can either use the provided TCP Client, or use your own TCP Client.
-
-3. Alternatively, establish a connection using the provided OPC UA server and client.
-   - Place the provided XML files in the same folder as the opc_ua_server.py file.
-   - The opc_ua_client can be located in a different folder.
-
-4. Send a JSON input over the established connection to HoloInterface to start a simulation.
+After a connection is established, send a JSON input over the established connection to HoloInterface to start a simulation.
 
 ## Authors
 
