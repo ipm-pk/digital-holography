@@ -207,6 +207,8 @@ class holo_opcua_server:
             service_trigger_result = 1  # 1 means ok
             # call measurement in separate task:
             loop = asyncio.get_event_loop()
+            if not json_cfg:
+                json_cfg = None
             task = loop.create_task(self.holo_interface_measurement(json_cfg))
             self.tasks.add(task)
             # To prevent keeping references to finished tasks forever,
@@ -377,9 +379,11 @@ class holo_opcua_server:
         await asyncio.sleep(ExecutionTime)
         try:
             for m_uri in measurements_uri:
+                if not isinstance(m_uri, str) or not m_uri:
+                    raise OSError
                 with open(m_uri, mode="a"):
                     pass
-                self.eventgen_evaluation_done.URI = "Evaluation simulation successful."
+            self.eventgen_evaluation_done.URI = "Evaluation simulation successful."
         except OSError:
             self.eventgen_measurement_done.ServiceExecutionResult = 1  # Fail
             self.eventgen_evaluation_done.URI = "Error during evaluation simulation."

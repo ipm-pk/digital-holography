@@ -1,0 +1,56 @@
+Struct MeasurementInput
+	MeasurementIdentifier: string
+End
+
+Struct EvaluationInput
+	EvaluationType: string
+	MeasurementURIs: array
+End
+
+Struct MeasurementDone
+	ExecutionTime: string
+	URI: string
+End
+
+Struct EvaluationDone
+	URI: string
+End
+
+Task productionTask
+	process_single_measurement
+End
+
+Task process_single_measurement
+    RequestMeasurement
+        In
+            MeasurementInput
+            {
+                "MeasurementIdentifier": "",
+            }
+        Out
+			MeasurementDone
+			{
+				"ExecutionTime": ""
+				"URI": ""
+			}
+	evaluate_measurement
+End
+
+Task evaluate_measurement
+    RequestEvaluation
+        In
+            EvaluationInput
+            {
+                "EvaluationType": "",
+				"MeasurementURIs": "",
+            }
+        Out
+			MeasurementDone
+			{
+				"URI": ""
+			}
+End
+
+# TODO: Namen für Structs, Variablen nach common model - object types? Input structs sind keine eigenen Structs in common model.
+# TODO: Wie werden Arrays gehandhabt (MeasurementURIs)?
+# TODO: Wie URI übergeben von measurement zu evaluation?
