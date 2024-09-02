@@ -179,7 +179,7 @@ class holo_opcua_server:
             ]
         )
         event_type_node = await sfet.get_child(
-            [f"{self.namespace_idx_ipm}:MeasurementDone"]
+            [f"{self.namespace_idx_ipm}:RequestMeasurement"]
         )
         # Create a new event of respective type
         self.eventgen_measurement_done = await self.opc_ua_server.get_event_generator(
@@ -187,7 +187,7 @@ class holo_opcua_server:
         )
         # Get the event type
         event_type_node = await sfet.get_child(
-            [f"{self.namespace_idx_ipm}:EvaluationDone"]
+            [f"{self.namespace_idx_ipm}:RequestEvaluation"]
         )
         # Create a new event of respective type
         self.eventgen_evaluation_done = await self.opc_ua_server.get_event_generator(
