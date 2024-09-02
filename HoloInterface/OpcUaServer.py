@@ -197,13 +197,10 @@ class holo_opcua_server:
     @uamethod
     async def request_measurement(self, parent, json_cfg):
         # This function starts a threat to run the holo client function and returns immediately
-        if isinstance(json_cfg, str):  # TODO: Check the json config more thoroughly
+        if isinstance(json_cfg, str):
             sync_result_message = "OK"
             sync_result_code = 0
-            expected_service_duration = (
-                0.25  # TODO: Estimate the measurement duration based on json config
-            )
-
+            expected_service_duration = 0.25
             service_trigger_result = 1  # 1 means ok
             # call measurement in separate task:
             loop = asyncio.get_event_loop()
@@ -270,33 +267,32 @@ class holo_opcua_server:
 
     async def simulate_measurement(self, json_cfg):
         """Function to simulate a measurement with the HoloInterface."""
-
-        # Send JSON to the HoloInterface_
+        # Send JSON to the HoloInterface
         self.holo_client.sendMessage(json_cfg)
-
         # Wait for answer and prepare the event to trigger:
         await asyncio.sleep(self.measurement_duration)
         result = self.holo_client.receiveMessage()  # Get answer from HoloInterface
-        print(f"Result: {result}")
-        start_index = result.find("[")
-        end_index = result.find("]")
-        error_list = result[start_index + 1 : end_index]  # Cut the "[]" from the string
-        error_list = error_list.split(",")  # Split the string into a list
-
-        if len(error_list) < 1:
+        if "No Errors found." in result:
             event_text = "Simulation finished without errors."
-
         else:
-            event_text = f"Simulation finished with {len(error_list)} errors!"
-
+            start_index = result.find("[")
+            end_index = result.find("]")
+            error_list = result[
+                start_index + 1 : end_index
+            ]  # Cut the "[]" from the string
+            error_list = error_list.split(",")  # Split the string into a list
+            event_text = (
+                f"Simulation finished with {len(error_list)} errors: {error_list}"
+            )
         return event_text
 
-    async def real_measurement(self, json_cfg):
+    async def real_measurement(self, json_cfg, filename_raw=None):
         """Function to trigger a real measurement with the HoloSoftware."""
         json_cfg = json.loads(json_cfg)
         # Trigger and wait for measurement:
-        self.holo_client.slot_request_measurement(additional_json=json_cfg)
-
+        self.holo_client.slot_request_measurement(
+            filename_raw=filename_raw, additional_json=json_cfg
+        )
         ret = self.holo_client.wait_for_measurement_finish()
         if ret == 110:
             event_text = "Real measurement finished successfully."
@@ -313,11 +309,11 @@ class holo_opcua_server:
         try:
             out_path = os.environ["HOLO_OUTPUT"]
         except KeyError:
+            print("HOLO_OUTPUT not set. Trying to use HOLO_RELEASE_DIR as output dir.")
             release_dir = os.environ["HOLO_RELEASE_DIR"]
             out_path = os.path.join(release_dir, "output")
         # file_tools.safe_mkdir(out_path)
         date_str = datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
-        filename = os.path.join(out_path, f"OPCUA_{date_str}.tiff")
         filename_raw = os.path.join(out_path, f"OPCUA_{date_str}_raw.tiff")
         # Trigger measurement
         try:
@@ -328,9 +324,6 @@ class holo_opcua_server:
                 json_cfg = {}
 
             # Trigger simulation or real measurement:
-            # TODO: This if-else should be in two different functions.
-            # In order to do so a new Node should be created in the XML file.
-            # Then the client can call the function by the name of the node.
             if json.loads(json_cfg)["use_holointerface"] is True:
                 # Trigger simulation and get result:
                 if not self.connected_to_simulated_interface:
@@ -348,7 +341,7 @@ class holo_opcua_server:
                     self.holo_client.disconnect()
                     self.holo_client.connectToServer(host="127.0.0.2", port=2025)
                     self.connected_to_simulated_interface = False
-                event_text = await self.real_measurement(json_cfg)
+                event_text = await self.real_measurement(json_cfg, filename_raw)
 
         except OSError as err:
             self.eventgen_measurement_done.event.ServiceExecutionResult = 1
@@ -367,13 +360,12 @@ class holo_opcua_server:
         # Trigger event:
         execution_time = time.time() - start_time
         self.eventgen_measurement_done.event.ExecutionTime = float(execution_time)
-        self.eventgen_measurement_done.event.URI = filename
+        self.eventgen_measurement_done.event.URI = filename_raw
         await self.eventgen_measurement_done.trigger()
         print("OPC UA Server: Event triggered")
 
     async def holo_client_evaluation(self, eval_type, measurements_uri):
-        # HACK: created a mockup here, usually the holo client is called like:
-        # TODO:  await holo_client.slot_request_measurement()
+        # This is just a mockup to simulate the evaluation
         ExecutionTime = await self.estimate_evaluation_duration(measurements_uri)
         ExecutionTime = ExecutionTime + random.gauss(0, 0.1)
         await asyncio.sleep(ExecutionTime)
@@ -407,7 +399,6 @@ class holo_opcua_server:
 async def check_measurement_format(uris):
     """
     Function for checking the format of the measurement URIs
-    # TODO: Check the JSON data more thoroughly
     """
     try:
         json_data = json.loads(uris)

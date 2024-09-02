@@ -44,12 +44,12 @@ if __name__ == "__main__":
     start_interface()
     time.sleep(2)
     start_opc_ua_server()
-    # time.sleep(2)
-    # start_opc_ua_client()
+    time.sleep(2)
 
-    # Wait for the processes to finish
-    # TODO: Implement a better way to wait for the processes to finish
-    time.sleep(20)
-
-    # # Beenden Sie die Subprozesse
-    # stop_processes()
+    use_simulation = True
+    if use_simulation:
+        start_opc_ua_client()
+        # Wait for the processes to finish
+        time.sleep(20)
+        # Beenden Sie die Subprozesse
+        stop_processes()
