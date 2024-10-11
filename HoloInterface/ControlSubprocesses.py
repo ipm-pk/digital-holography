@@ -44,12 +44,9 @@ if __name__ == "__main__":
     start_interface()
     time.sleep(2)
     start_opc_ua_server()
-    time.sleep(2)
-
-    use_simulation = True
-    if use_simulation:
-        start_opc_ua_client()
-        # Wait for the processes to finish
-        time.sleep(20)
-        # Beenden Sie die Subprozesse
-        stop_processes()
+    # Wait for OPC UA server to start
+    time.sleep(30)
+    start_opc_ua_client()
+    # Wait for the processes to finish
+    time.sleep(30)
+    stop_processes()

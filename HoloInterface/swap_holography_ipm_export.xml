@@ -189,13 +189,13 @@
             <Reference ReferenceType="HasDescription">ns=2;i=6031</Reference>
         </References>
     </UAObject>
-    <UAObjectType NodeId="ns=2;i=1001" BrowseName="2:RequestMeasurement">
-        <DisplayName>RequestMeasurement</DisplayName>
+    <UAObjectType NodeId="ns=2;i=1001" BrowseName="2:RequestMeasurementFinishedEventType">
+        <DisplayName>RequestMeasurementFinishedEventType</DisplayName>
         <References>
             <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=1000</Reference>
         </References>
     </UAObjectType>
-    <UAVariable DataType="String" NodeId="ns=2;i=6016" BrowseName="2:ExecutionTime" ParentNodeId="ns=2;i=1001" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="String" NodeId="ns=2;i=6016" BrowseName="2:execution_time" ParentNodeId="ns=2;i=1001" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>ExecutionTime</DisplayName>
         <Description>The execution time of the measurement.</Description>
         <References>
@@ -204,7 +204,7 @@
             <Reference ReferenceType="HasModellingRule">i=80</Reference>
         </References>
     </UAVariable>
-    <UAVariable DataType="String" NodeId="ns=2;i=6017" BrowseName="2:URI" ParentNodeId="ns=2;i=1001" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="String" NodeId="ns=2;i=6017" BrowseName="2:uri" ParentNodeId="ns=2;i=1001" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>URI</DisplayName>
         <Description>URI of measurement</Description>
         <References>
@@ -236,7 +236,7 @@
                     </uax:TypeId>
                     <uax:Body>
                         <uax:Argument>
-                            <uax:Name>MeasurementConfiguration</uax:Name>
+                            <uax:Name>measurement_configuration</uax:Name>
                             <uax:DataType>
                                 <uax:Identifier>i=12</uax:Identifier>
                             </uax:DataType>
@@ -267,7 +267,7 @@
                     </uax:TypeId>
                     <uax:Body>
                         <uax:Argument>
-                            <uax:Name>ServiceResponse</uax:Name>
+                            <uax:Name>service_response</uax:Name>
                             <uax:DataType>
                                 <uax:Identifier>ns=1;i=3006</uax:Identifier>
                             </uax:DataType>
@@ -341,7 +341,7 @@
                     </uax:TypeId>
                     <uax:Body>
                         <uax:Argument>
-                            <uax:Name>EvaluationType</uax:Name>
+                            <uax:Name>evaluation_type</uax:Name>
                             <uax:DataType>
                                 <uax:Identifier>i=12</uax:Identifier>
                             </uax:DataType>
@@ -359,7 +359,7 @@
                     </uax:TypeId>
                     <uax:Body>
                         <uax:Argument>
-                            <uax:Name>MeasurementURIs</uax:Name>
+                            <uax:Name>measurement_uri</uax:Name>
                             <uax:DataType>
                                 <uax:Identifier>i=12</uax:Identifier>
                             </uax:DataType>
@@ -392,7 +392,7 @@
                     </uax:TypeId>
                     <uax:Body>
                         <uax:Argument>
-                            <uax:Name>ServiceResponse</uax:Name>
+                            <uax:Name>service_response</uax:Name>
                             <uax:DataType>
                                 <uax:Identifier>ns=1;i=3006</uax:Identifier>
                             </uax:DataType>
@@ -428,13 +428,13 @@
             <Reference ReferenceType="HasTypeDefinition">i=76</Reference>
         </References>
     </UAObject>
-    <UAObjectType NodeId="ns=2;i=1000" BrowseName="2:RequestEvaluation">
-        <DisplayName>RequestEvaluation</DisplayName>
+    <UAObjectType NodeId="ns=2;i=1000" BrowseName="2:RequestEvaluationFinishedEventType">
+        <DisplayName>RequestEvaluationFinishedEventType</DisplayName>
         <References>
             <Reference ReferenceType="HasSubtype" IsForward="false">ns=1;i=1000</Reference>
         </References>
     </UAObjectType>
-    <UAVariable DataType="String" NodeId="ns=2;i=6026" BrowseName="2:URI" ParentNodeId="ns=2;i=1000" UserAccessLevel="3" AccessLevel="3">
+    <UAVariable DataType="String" NodeId="ns=2;i=6026" BrowseName="2:uri" ParentNodeId="ns=2;i=1000" UserAccessLevel="3" AccessLevel="3">
         <DisplayName>URI</DisplayName>
         <Description>URI of evaluation</Description>
         <References>

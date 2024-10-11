@@ -1,23 +1,23 @@
 Struct MeasurementInput
-	MeasurementIdentifier: string
+    measurement_configuration: string
 End
 
 Struct EvaluationInput
-	EvaluationType: string
-	MeasurementURIs: string[]
+    evaluation_type: string
+    measurement_uri: string[]
 End
 
-Struct MeasurementDone
-	ExecutionTime: string
-	URI: string
+Struct RequestMeasurementFinishedEventType
+    execution_time: string
+    uri: string
 End
 
-Struct EvaluationDone
-	URI: string
+Struct RequestEvaluationFinishedEventType
+    uri: string
 End
 
 Task productionTask
-	process_single_measurement
+    process_single_measurement
 End
 
 Task process_single_measurement
@@ -25,28 +25,29 @@ Task process_single_measurement
         In
             MeasurementInput
             {
-                "MeasurementIdentifier": "",
+                "measurement_configuration": ""
             }
         Out
-			MeasurementData: MeasurementDone
-	evaluate_measurement
-		In
+            measurementData: RequestMeasurementFinishedEventType
+    evaluate_measurement
+        In
+            measurementData
             EvaluationInput
             {
-                "EvaluationType": "",
-				"MeasurementURIs": "",
+                "evaluation_type": "",
+				"measurement_uri": [""]
             }
-			MeasurementData
+            
 End
 
 Task evaluate_measurement
     In
-		StaticEvaluationData: EvaluationInput
-		DynamicEvaluationData: MeasurementDone
-	RequestEvaluation
+        dynamicEvaluationData: RequestMeasurementFinishedEventType
+        staticEvaluationData: EvaluationInput
+    RequestEvaluation
         In
-            StaticEvaluationData.EvaluationType
-			DynamicEvaluationData.URI
+            staticEvaluationData.evaluation_type
+            dynamicEvaluationData.uri
         Out
-			EvaluationData: EvaluationDone
+            evaluationData: RequestEvaluationFinishedEventType
 End

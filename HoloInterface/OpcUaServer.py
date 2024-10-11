@@ -1,6 +1,5 @@
 import asyncio
 import json
-
 # import copy
 import logging
 import math
@@ -19,24 +18,43 @@ class holo_opcua_server:
     Class for the OPC UA server. It is used to create the server and link the methods to the holo client.
     """
 
-    def __init__(self, host: str = "0.0.0.0", port: str = "4840"):
+    def __init__(
+        self,
+        host: str = "0.0.0.0",
+        port: str = "4840",
+        host_holosoftware: str = "127.0.0.2",
+        port_holosoftware: str = "2025",
+        host_holosimulated: str = "localhost",
+        port_holosimulated: str = "1234",
+    ):
         """Constructor for the OPC UA server class. Initializes the server and the holo client."""
         self.measurement_duration = 0.25  # Estimated time for a holographic measurement
         self.opc_ua_server = Server()
         self.opc_ua_endpoint = f"opc.tcp://{host}:{port}/freeopcua/server/"
         self.opc_ua_server_name = "Fraunhofer IPM Holography Sensor"
+        self.holo_software_host = host_holosoftware
+        self.holo_software_port = port_holosoftware
+        self.holo_simulated_host = host_holosimulated
+        self.holo_simulated_port = port_holosimulated
         # Set to remember the concurrent tasks and prevent early garbage collection
         self.tasks = set()
         # Dict for variables (capability and property nodes are stored here later)
         self.opc_ua_variables = {}
         # Set up holo client
-        self.connected_to_simulated_interface = True
+        self.connected_to_simulated_interface = False
+        self.connected_to_real_interface = False
         self.holo_client = InterfaceTcpClient()
 
-    async def connect_tcp_client(self, host="localhost", port: str = "1234"):
+    async def connect_tcp_client(
+        self, host="localhost", port: str = "1234", simulated=True
+    ):
         port = int(port)
         """Function to connect the holo client to the server."""
         self.holo_client.connectToServer(host, port)
+        if simulated:
+            self.connected_to_simulated_interface = True
+        else:
+            self.connected_to_real_interface = True
 
     async def check_measurement_uri_format(self, uris):
         """Passed argument is expected to be a list of strings, representing measurement files."""
@@ -179,7 +197,7 @@ class holo_opcua_server:
             ]
         )
         event_type_node = await sfet.get_child(
-            [f"{self.namespace_idx_ipm}:RequestMeasurement"]
+            [f"{self.namespace_idx_ipm}:RequestMeasurementFinishedEventType"]
         )
         # Create a new event of respective type
         self.eventgen_measurement_done = await self.opc_ua_server.get_event_generator(
@@ -187,7 +205,7 @@ class holo_opcua_server:
         )
         # Get the event type
         event_type_node = await sfet.get_child(
-            [f"{self.namespace_idx_ipm}:RequestEvaluation"]
+            [f"{self.namespace_idx_ipm}:RequestEvaluationFinishedEventType"]
         )
         # Create a new event of respective type
         self.eventgen_evaluation_done = await self.opc_ua_server.get_event_generator(
@@ -296,7 +314,6 @@ class holo_opcua_server:
         ret = self.holo_client.wait_for_measurement_finish()
         if ret == 110:
             event_text = "Real measurement finished successfully."
-
         else:
             event_text = "Real measurement failed."
 
@@ -326,12 +343,15 @@ class holo_opcua_server:
             # Trigger simulation or real measurement:
             if json.loads(json_cfg)["use_holointerface"] is True:
                 # Trigger simulation and get result:
-                if not self.connected_to_simulated_interface:
+                if self.connected_to_real_interface:
                     self.holo_client.disconnect()
-                    self.holo_client.connectToServer(host="127.0.0.2", port=1234)
+                    self.connected_to_real_interface = False
+                if not self.connected_to_simulated_interface:
+                    self.holo_client.connectToServer(
+                        host=self.holo_simulated_host, port=int(self.holo_simulated_port)
+                    )
                     self.connected_to_simulated_interface = True
                 event_text = await self.simulate_measurement(json_cfg)
-
             else:
                 # Trigger real measurement and get result:
                 # Because the TCP Client connects automatically to the TCP Server
@@ -339,8 +359,12 @@ class holo_opcua_server:
                 # TCP server of the HoloSoftware.
                 if self.connected_to_simulated_interface:
                     self.holo_client.disconnect()
-                    self.holo_client.connectToServer(host="127.0.0.2", port=2025)
                     self.connected_to_simulated_interface = False
+                if not self.connected_to_real_interface:
+                    self.holo_client.connectToServer(
+                        host=self.holo_software_host, port=int(self.holo_software_port)
+                    )
+                    self.connected_to_real_interface = True
                 event_text = await self.real_measurement(json_cfg, filename_raw)
 
         except OSError as err:
@@ -359,8 +383,8 @@ class holo_opcua_server:
 
         # Trigger event:
         execution_time = time.time() - start_time
-        self.eventgen_measurement_done.event.ExecutionTime = float(execution_time)
-        self.eventgen_measurement_done.event.URI = filename_raw
+        self.eventgen_measurement_done.event.execution_time = float(execution_time)
+        self.eventgen_measurement_done.event.uri = filename_raw
         await self.eventgen_measurement_done.trigger()
         print("OPC UA Server: Event triggered")
 
@@ -375,14 +399,14 @@ class holo_opcua_server:
                     raise OSError
                 with open(m_uri, mode="a"):
                     pass
-            self.eventgen_evaluation_done.URI = "Evaluation simulation successful."
+            self.eventgen_evaluation_done.uri = "Evaluation simulation successful."
         except OSError:
             self.eventgen_measurement_done.ServiceExecutionResult = 1  # Fail
-            self.eventgen_evaluation_done.URI = "Error during evaluation simulation."
+            self.eventgen_evaluation_done.uri = "Error during evaluation simulation."
         else:
             self.eventgen_measurement_done.ServiceExecutionResult = 0  # Success
         # When measurement is done, trigger event
-        print(self.eventgen_evaluation_done.URI)
+        print(self.eventgen_evaluation_done.uri)
         await self.eventgen_evaluation_done.trigger()
 
     async def wait_for_simulation(self):
@@ -419,13 +443,19 @@ async def check_measurement_format(uris):
 async def main(
     ip_opcua: str = "localhost",
     port_opcua: str = "4840",
-    ip_holo: str = "localhost",
-    port_holo: str = "1234",
+    ip_holo: str = "127.0.0.2",
+    port_holo: str = "2025",
+    ip_simulated: str = "localhost",
+    port_simulated: str = "1234",
 ):
-    opcua_server = holo_opcua_server(ip_opcua, port_opcua)
+    opcua_server = holo_opcua_server(
+        ip_opcua, port_opcua, ip_holo, port_holo, ip_simulated, port_simulated
+    )
     await opcua_server.start_opc_ua_server()
-
-    await opcua_server.connect_tcp_client(host=ip_holo, port=port_holo)
+    await opcua_server.connect_tcp_client(
+        host=ip_simulated, port=port_simulated, simulated=True
+    )
+    # await opcua_server.connect_tcp_client(host=ip_holo, port=port_holo, simulated=False)
     opcua_server.holo_client.receiveMessage()
 
     async with opcua_server.opc_ua_server:

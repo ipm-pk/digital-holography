@@ -204,7 +204,6 @@ async def loop(opcua_client, file_searcher):
                 json_data, indent=2
             )  # Convert the JSON data to a string
             # Call request_measurement method with the JSON data:
-            # TODO: Add another Node to the OPC UA Server so that the right node can be triggered.
             await opcua_client.call_request_measurement(json_str=json_data)
             await asyncio.sleep(1)
 

@@ -33,6 +33,7 @@ These instructions will guide you on how to set up and use the HoloInterface sof
 **It is recommended to maintain the folder structure as provided in the repository.**
 
 The program `Control_subprocesses.py` runs a whole simulation cycle. A `.json` must be given as the input for the simulated measurement. It is recommended to start with the provided `JSON_Test_ok.jso` or `JSON_Test_bug.jso` (with an unknown parameter). 
+For illustration purposes, depending on the value of "use_holointerface" in the JSON, either a silumated measurement or a real measurement is conducted.
 
 If you want to choose the communication interface individually, please mind the following steps:
 1. If you want to connect to the HoloSensor using OPC UA, an instance of the HoloInterfaceTcpServer needs to be running. This is a proprietary interface which can also be used independently. Establish a TCP connection using the provided client to communicate with HoloInterface. 
