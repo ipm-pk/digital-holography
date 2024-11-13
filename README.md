@@ -10,6 +10,7 @@ Holography is a powerful technique that enables the recording and reconstruction
 
 - Manuel Eschborn - [GitHub Profile](https://github.com/ElManu93)
 - Patrick Laux
+- Tobias Seyler
 
 ## License
 
