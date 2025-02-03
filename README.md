@@ -14,4 +14,4 @@ Holography is a powerful technique that enables the recording and reconstruction
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](link_to_license_file) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ipm-pk/digital-holography/blob/main/LICENSE) file for details.
