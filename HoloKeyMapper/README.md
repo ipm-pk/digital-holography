@@ -47,4 +47,4 @@ From a loaded `.csv` file, the latter options are not available.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md]([link_to_license_file](https://github.com/ipm-pk/digital-holography/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/ipm-pk/digital-holography/blob/main/LICENSE) file for details.
